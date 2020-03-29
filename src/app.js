@@ -3,10 +3,10 @@ const cors = require('cors');
 require('./db/mongoose');
 require('./model/product');
 const productRouter = require('./router/product');
-const properties = require('./util/properties');
+require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || properties.get('app.server.defaultport');
+const port = process.env.APP_PORT || 3000;
 
 app.use(express.json());
 app.use(cors());

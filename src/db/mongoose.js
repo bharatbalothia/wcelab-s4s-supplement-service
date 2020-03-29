@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const properties = require('../util/properties');
+require('dotenv').config();
 
-const host = properties.get('mongodb.server.host');
-const port = properties.get('mongodb.server.defaultport');
-const db = properties.get('mongodb.server.dbname');
+const host = process.env.MONGODB_HOST;
+const port = process.env.MONGODB_PORT;
+const db = process.env.MONGODB_DBNAME;
 
 mongoose.connect('mongodb://' + host + ':' + port + '/' + db, {
     useNewUrlParser: true,
