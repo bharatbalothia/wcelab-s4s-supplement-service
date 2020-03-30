@@ -40,4 +40,11 @@ router.get('/product/:id', async (req, res) => {
     };
 });
 
+//Test for REST Endpoint access
+router.get('/hello', async (req, res) => {
+    res.send({
+        "message": "Hello World !!!"
+    });
+});
+
 module.exports = router;

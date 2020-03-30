@@ -1,10 +1,11 @@
 {
-  "name": "ibm-covid-catalog-mgmt-backend",
+  "name": "s4s-supplement-service",
   "version": "1.0.0",
-  "description": "Backend for SKU management for Covid Scarce Supply Inventory Visibility",
+  "description": "Supplement backend service for Sterling For Scarce Supply Inventory Visibility (s4s)",
   "main": "src/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js"
   },
   "author": "Akhil Pawar",
   "license": "ISC",
