@@ -1,4 +1,5 @@
 const express = require('express');
+// const url = require('url');
 const Product = require('../model/product');
 const router = new express.Router();
 
@@ -18,6 +19,8 @@ router.post('/product', async (req, res) => {
 //Gets a list of all the items
 router.get('/products', async (req, res) => {
     try{
+        const _params = req.params;
+        console.log("_params: ", _params);
         const products = await Product.find({});
         res.send(products);
     }catch(e){
@@ -29,7 +32,7 @@ router.get('/products', async (req, res) => {
 router.get('/product/:id', async (req, res) => {
     const _id = req.params.id;
     try{
-        const product = await Product.findById(_id);
+        const product = await Product.find({ item_id: _id });
         if(!product){
             return res.status(404).send();
         }
@@ -40,11 +43,20 @@ router.get('/product/:id', async (req, res) => {
     };
 });
 
-//Test for REST Endpoint access
-router.get('/hello', async (req, res) => {
-    res.send({
-        "message": "Hello World !!!"
-    });
+//Gets an item based on tag
+router.get('/products/tag/:id', async (req, res) => {
+    const _tag = String(req.params.id).split('&');
+    console.log('tag:' + _tag);
+    try{
+        const products = await Product.find({ tags: { $in: _tag } });
+        if(!products){
+            return res.status(404).send();
+        }
+        res.send(products);
+    }catch(e){
+        console.log(e);
+        res.status(500).send(e);
+    };
 });
 
 module.exports = router;

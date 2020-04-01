@@ -4,8 +4,8 @@ const productSchema = new mongoose.Schema({
     item_id: String,
     description: String,
     unit_of_measure: String,
-    tags: [String]
-    //TODO category
+    tags: [String],
+    category: String
     //TODO validation for unique item_id and unit_of_measure
 });
 
