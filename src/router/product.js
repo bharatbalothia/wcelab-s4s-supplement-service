@@ -1,5 +1,4 @@
 const express = require('express');
-// const url = require('url');
 const Product = require('../model/product');
 const router = new express.Router();
 
@@ -33,6 +32,21 @@ router.get('/product/:id', async (req, res) => {
     const _id = req.params.id;
     try{
         const product = await Product.find({ item_id: _id });
+        if(!product){
+            return res.status(404).send();
+        }
+        res.send(product);
+    }catch(e){
+        console.log(e);
+        res.status(500).send(e);
+    };
+});
+
+//Gets an item based on id
+router.get('/products/category/:id', async (req, res) => {
+    const _id = req.params.id;
+    try{
+        const product = await Product.find({ category: _id });
         if(!product){
             return res.status(404).send();
         }
