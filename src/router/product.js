@@ -1,9 +1,10 @@
 const express = require('express');
 const Product = require('../model/product');
+const auth = require('../middleware/auth');
 const router = new express.Router();
 
 //Create a new item or product
-router.post('/product', async (req, res) => {
+router.post('/products', auth, async (req, res) => {
     const product = new Product(req.body);
     try{
         await product.save();
@@ -16,10 +17,8 @@ router.post('/product', async (req, res) => {
 });
 
 //Gets a list of all the items
-router.get('/products', async (req, res) => {
+router.get('/products', auth, async (req, res) => {
     try{
-        const _params = req.params;
-        console.log("_params: ", _params);
         const products = await Product.find({});
         res.send(products);
     }catch(e){
@@ -28,10 +27,10 @@ router.get('/products', async (req, res) => {
 });
 
 //Gets an item based on id
-router.get('/product/:id', async (req, res) => {
+router.get('/products/:id', auth, async (req, res) => {
     const _id = req.params.id;
     try{
-        const product = await Product.find({ item_id: _id });
+        const product = await Product.findOne({ item_id: _id });
         if(!product){
             return res.status(404).send();
         }
@@ -42,8 +41,8 @@ router.get('/product/:id', async (req, res) => {
     };
 });
 
-//Gets an item based on id
-router.get('/products/category/:id', async (req, res) => {
+//Gets products based on a category id
+router.get('/products/category/:id', auth, async (req, res) => {
     const _id = req.params.id;
     try{
         const product = await Product.find({ category: _id });
@@ -58,7 +57,7 @@ router.get('/products/category/:id', async (req, res) => {
 });
 
 //Gets an item based on tag
-router.get('/products/tag/:id', async (req, res) => {
+router.get('/products/tag/:id', auth, async (req, res) => {
     const _tag = String(req.params.id).split('&');
     console.log('tag:' + _tag);
     try{

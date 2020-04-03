@@ -1,9 +1,10 @@
 const express = require('express');
 const Supplier = require('../model/supplier');
+const auth = require('../middleware/auth');
 const router = new express.Router();
 
 //Create a new supplier
-router.post('/supplier', async (req, res) => {
+router.post('/suppliers', async (req, res) => {
     const supplier = new Supplier(req.body);
     try{
         await supplier.save();
@@ -16,7 +17,7 @@ router.post('/supplier', async (req, res) => {
 });
 
 //Gets a list of all the suppliers
-router.get('/suppliers', async (req, res) => {
+router.get('/suppliers', auth, async (req, res) => {
     try{
         const suppliers = await Supplier.find({});
         res.send(suppliers);
@@ -26,10 +27,10 @@ router.get('/suppliers', async (req, res) => {
 });
 
 //Gets an item based on id
-router.get('/supplier/:id', async (req, res) => {
+router.get('/suppliers/:id', auth, async (req, res) => {
     const _id = req.params.id;
     try{
-        const supplier = await Supplier.find({ supplier_id: _id });
+        const supplier = await Supplier.findOne({ supplier_id: _id });
         if(!supplier){
             return res.status(404).send();
         }

@@ -17,14 +17,16 @@ uri = 'mongodb://' + host + ':' + port + '/' + db;
 mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    ssl: true,
-    sslValidate: true,
-    sslCA: certFileBuf
+    useFindAndModify: false
+    // ssl: true,
+    // sslValidate: true,
+    // sslCA: certFileBuf
 }).then(() => {
     console.log('DB Connection successful !!');
 }).catch(() => {
     console.log('DB Connection FAILURE !!!');
 });
+// mongoose.set("debug", true);
 
 if (process.env.VCAP_SERVICES) {
     var env = JSON.parse(process.env.VCAP_SERVICES);

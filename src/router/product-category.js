@@ -1,9 +1,11 @@
 const express = require('express');
 const ProductCategory = require('../model/product-category');
+const auth = require('../middleware/auth');
 const router = new express.Router();
 
 //Create a new product category
-router.post('/product/category', async (req, res) => {
+router.post('/product/category', auth, async (req, res) => {
+    // console.log(req.body);
     const productCategory = new ProductCategory(req.body);
     try{
         await productCategory.save();
@@ -16,7 +18,7 @@ router.post('/product/category', async (req, res) => {
 });
 
 //Gets a list of all the product categories
-router.get('/product/categories', async (req, res) => {
+router.get('/product/categories', auth, async (req, res) => {
     try{
         const productCategories = await ProductCategory.find({});
         res.send(productCategories);
