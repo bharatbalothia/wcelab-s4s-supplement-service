@@ -2,3 +2,4 @@ node_modules
 .env
 certs
 cloud_db_connection.json
+_cloud_db_connection.json
