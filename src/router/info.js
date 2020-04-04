@@ -7,7 +7,7 @@ router.get('/info', async (req, res) => {
         "project": "S4S - Sterling 4 Scarce Supply Inventory Visibility",
         "release": "Phase 1",
         "service": "s4s-supplement-service",
-        "version": "1.10",
+        "version": "1.11",
         "environment": "development"
     });
 });
