@@ -1,8 +1,8 @@
 ---
 applications:
--   name: s4s-supplement-service
+-   name: s4s-supplement-service-dev
     routes:
-    -   route: https://s4s-supplement-service.mybluemix.net/
+    -   route: https://s4s-supplement-service-dev.mybluemix.net/
     memory: 512M
     services:
     -   s4s-supplement-service-mongodb
