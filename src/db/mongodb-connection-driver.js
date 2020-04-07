@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const base64Util = require('../util/base64-util');
 require('dotenv').config();
-const MongoMemoryServer = require('mongodb-memory-server').MongoMemoryServer;
+// const MongoMemoryServer = require('mongodb-memory-server').MongoMemoryServer;
 
 var uri;
 var certFileBuf;
