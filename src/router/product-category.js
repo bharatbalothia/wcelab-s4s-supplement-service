@@ -4,21 +4,18 @@ const auth = require('../middleware/auth');
 const router = new express.Router();
 
 //Create a new product category
-router.post('/product/category', auth, async (req, res) => {
-    // console.log(req.body);
+router.post('/s4s/product/category', auth, async (req, res) => {
     const productCategory = new ProductCategory(req.body);
     try{
         await productCategory.save();
-        console.log("Product category Created: ", productCategory);
         res.status(201).send(productCategory);
     }catch(e){
-        console.log('Save error.', e);
         res.status(400).send(e);
     }
 });
 
 //Gets a list of all the product categories
-router.get('/product/categories', auth, async (req, res) => {
+router.get('/s4s/product/categories', auth, async (req, res) => {
     try{
         const productCategories = await ProductCategory.find({});
         res.send(productCategories);

@@ -7,6 +7,7 @@ const productRouter = require('./router/product');
 const productCategoryRouter = require('./router/product-category');
 const supplierRouter = require('./router/supplier');
 const ivCredentialRouter = require('./router/iv-credential');
+const tenantRouter = require('./router/tenant');
 const infoRouter = require('./router/info');
 
 const app = express();
@@ -18,9 +19,12 @@ app.use(cors());
 app.use(productRouter);
 app.use(productCategoryRouter);
 app.use(supplierRouter);
+app.use(tenantRouter);
 app.use(ivCredentialRouter);
 app.use(infoRouter);
 
-app.listen(port, host, () => {
+var server = app.listen(port, host, () => {
     console.log('Server is up on ' + host + ':' + port);
 });
+
+module.exports = server;

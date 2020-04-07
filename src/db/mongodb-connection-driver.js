@@ -2,13 +2,15 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const base64Util = require('../util/base64-util');
 require('dotenv').config();
+const MongoMemoryServer = require('mongodb-memory-server').MongoMemoryServer;
 
 var uri;
 var certFileBuf;
 var dbOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useCreateIndex: true
 }
 var dbEnvironment = process.env.DB_ENVIRONMENT || "NULL";
 
@@ -16,6 +18,12 @@ if(dbEnvironment == "DEV"){
     const host = process.env.MONGODB_HOST;
     const port = process.env.MONGODB_PORT;
     const db = process.env.MONGODB_DBNAME;
+    uri = 'mongodb://' + host + ':' + port + '/' + db;
+    console.log("uri: " + uri);
+}else if(dbEnvironment == "TEST"){
+    const host = process.env.MONGODB_HOST;
+    const port = process.env.MONGODB_PORT;
+    const db = process.env.MONGODB_TEST_DBNAME;
     uri = 'mongodb://' + host + ':' + port + '/' + db;
     console.log("uri: " + uri);
 }else if(dbEnvironment == "IBM_CLOUD"){
@@ -42,7 +50,12 @@ if(dbEnvironment == "NULL"){
 }else{
     mongoose.connect(uri, dbOptions).then(() => {
         console.log('DB Connection successful !!');
+        if(dbEnvironment == "TEST"){
+            mongoose.connection.db.dropDatabase();
+        }
     }).catch(() => {
         console.log('DB Connection FAILURE !!!');
     });
+
+    // mongoose.set('debug', true);
 }

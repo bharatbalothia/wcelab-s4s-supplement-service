@@ -11,7 +11,7 @@ const router = new express.Router();
 var tokenMemoryCache;
 
 //Create a iv credential for SCBN buyer
-router.post('/iv-credential', auth, async (req, res) => {
+router.post('/s4s/iv-credential', auth, async (req, res) => {
     const ivCredential = new IVCredential(req.body);
     try{
         await ivCredential.save();
@@ -24,7 +24,7 @@ router.post('/iv-credential', auth, async (req, res) => {
 });
 
 //Retrieve the iv credentials for SCBN buyer
-router.post('/iv-token', auth, async (req, res) => {
+router.post('/s4s/iv-token', auth, async (req, res) => {
     // console.log(req.body);
     const buyerSCBNId = req.body.buyer_scbn_id;
     const operation = req.body.operation;
@@ -115,9 +115,6 @@ function getIVHTTPOptions(ivCredential) {
     //Fetch the new token from iv oauth2/token service
     var ivAuthTokenBaseURL = Constants.IV_AUTH_TOKEN_BASE_URL;
     var ivAuthTokenTenantURL = ivAuthTokenBaseURL.replace('{tenantId}', ivTenantId);
-    // console.log(ivAuthTokenTenantURL);
-    // console.log(ivTenantClientId);
-    // console.log(ivTenantClientSecret);
     var options = {
         method: 'POST',
         uri: ivAuthTokenTenantURL,

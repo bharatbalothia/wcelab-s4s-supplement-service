@@ -3,3 +3,4 @@ node_modules
 certs
 cloud_db_connection.json
 _cloud_db_connection.json
+test/playground-test.js

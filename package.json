@@ -4,7 +4,7 @@
   "description": "Supplement backend service for Sterling For Scarce Supply Inventory Visibility (s4s)",
   "main": "src/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "env DB_ENVIRONMENT=TEST mocha",
     "start": "node src/app.js"
   },
   "author": "Akhil Pawar",
@@ -15,7 +15,16 @@
     "express": "^4.17.1",
     "hashmap": "^2.4.0",
     "mongoose": "^5.9.6",
+    "mongoose-unique-validator": "^2.0.3",
     "request": "^2.88.2",
     "request-promise": "^4.2.5"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "chai-like": "^1.1.1",
+    "chai-things": "^0.2.0",
+    "mocha": "^7.1.1",
+    "mongodb-memory-server": "^6.5.2"
   }
 }
