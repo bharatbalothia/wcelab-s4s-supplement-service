@@ -1,6 +1,7 @@
 const express = require('express');
 const httpRequest = require('request-promise');
 const IVCredential = require('../model/iv-credential');
+const Supplier = require('../model/supplier');
 const Constants = require('../util/constants');
 const Base64Util = require('../util/base64-util');
 const DateTimeUtil = require('../util/datetime-util');
@@ -28,6 +29,7 @@ router.post('/s4s/iv-token', auth, async (req, res) => {
     // console.log(req.body);
     const buyerSCBNId = req.body.buyer_scbn_id;
     const operation = req.body.operation;
+    const supplierMailslotId = req.body.supplier_mailslot_id;
     var forceToken = (req.body.force_token == "true");
     // console.log("forceToken: " + forceToken);
     
@@ -87,11 +89,16 @@ router.post('/s4s/iv-token', auth, async (req, res) => {
             // console.log("Added token in cache");
             // tokenMemoryCache.printCache();
         }
+
+        const supplier = await Supplier.findOne({ supplier_mailslot_id: supplierMailslotId });
                 
         //Return the json response
         var jsonResponse = {};
         jsonResponse['url'] = Constants.IV_API_BASE_URL.replace('{tenantId}', ivTenantId).replace('{operation}', operation);
         jsonResponse['buyer_scbn_id'] = buyerSCBNId;
+        if(supplier){
+            jsonResponse['supplier_id'] = supplier.supplier_id;
+        }
         jsonResponse['iv_tenant_id'] = ivTenantId;
         jsonResponse['bearer_token'] = bearerToken;
         jsonResponse['time_to_live'] = ivTTLRemaining;
