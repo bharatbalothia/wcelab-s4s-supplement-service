@@ -12,10 +12,10 @@ describe('Product Category API', () => {
     /**
      * Test the POST route
      */
-    describe('POST /s4s/product/category', () => {
+    describe('POST /s4s/{tenantId}/product/category', () => {
         it('should NOT POST the product category without category_id', (done) => {
             chai.request(server)
-                .post('/s4s/product/category')
+                .post('/s4s/t10001/product/category')
                 .end((err, response) => {
                     response.should.have.status(400);
                     response.body.should.be.a('object');
@@ -32,7 +32,7 @@ describe('Product Category API', () => {
                 "category_description": "Person Protection Equipment"
             };
             chai.request(server)
-                .post('/s4s/product/category')
+                .post('/s4s/t10001/product/category')
                 .send(product)
                 .end((err, response) => {
                     response.should.have.status(201);
@@ -47,7 +47,7 @@ describe('Product Category API', () => {
                 "category_description": "Medical Equipments"
             };
             chai.request(server)
-                .post('/s4s/product/category')
+                .post('/s4s/t10001/product/category')
                 .send(product)
                 .end((err, response) => {
                     response.should.have.status(201);
@@ -62,7 +62,7 @@ describe('Product Category API', () => {
                 "category_description": "Medical Equipments"
             };
             chai.request(server)
-                .post('/s4s/product/category')
+                .post('/s4s/t10001/product/category')
                 .send(product)
                 .end((err, response) => {
                     response.should.have.status(400);
@@ -76,10 +76,10 @@ describe('Product Category API', () => {
     /**
      * Test the GET route
      */
-    describe('GET /s4s/product/categories', () => {
-        it('should GET all the products', (done) => {
+    describe('GET /s4s/{tenantId}/product/categories', () => {
+        it('should GET all the product categories', (done) => {
             chai.request(server)
-                .get('/s4s/product/categories')
+                .get('/s4s/t10001/product/categories')
                 .end((err, response) => {
                     response.should.have.status(200);
                     response.body.should.be.a('array');

@@ -3,10 +3,11 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 const productCategorySchema = new mongoose.Schema({
     category_id: { type: String, required: true },
-    category_description: String
+    category_description: String,
+    tenant_id: { type: String, required: true }
 });
 
-productCategorySchema.index({ category_id: 1 }, { unique: true });
+productCategorySchema.index({ category_id: 1, tenant_id: 1 }, { unique: true });
 productCategorySchema.plugin(uniqueValidator);
 
 const ProductCategory = mongoose.model('ProductCategory', productCategorySchema);
