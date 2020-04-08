@@ -171,5 +171,70 @@ describe('Supplier API', () => {
 
     });
 
+    /**
+     * Test the DELETE route
+     */
+    describe('DELETE /s4s/{tenantId}/suppliers/:id', () => {
+        it('should DELETE the product', (done) => {
+
+            var supplier = {
+                "supplier_id":"3M_2",
+                "description":"3M_2 USA Inc.",
+                "supplier_type":"Supplier",
+                "address_attributes":[
+                    {
+                        "name": "address_line_1",
+                        "value": "3471 Paris Av"
+                    },
+                    {
+                        "name": "city",
+                        "value": "Dallas"
+                    },
+                    {
+                        "name": "state",
+                        "value": "TX"
+                    },
+                    {
+                        "name": "zipcode",
+                        "value": "75215"
+                    },
+                    {
+                        "name": "country",
+                        "value": "US"
+                    }
+                ]
+            };
+            chai.request(server)
+                .post('/s4s/t10001/suppliers')
+                .send(supplier)
+                .end((err, response) => {
+                    response.should.have.status(201);
+                    response.body.should.be.a('object');
+
+                    chai.request(server)
+                    .get('/s4s/t10001/suppliers/3M_2')
+                    .end((err, response) => {
+                        response.should.have.status(200);
+                        response.body.should.be.a('object');
+
+                        chai.request(server)
+                            .delete('/s4s/t10001/suppliers/3M_2')
+                            .end((err, response) => {
+                                response.should.have.status(200);
+                                response.body.should.be.a('object');
+
+                                chai.request(server)
+                                    .get('/s4s/t10001/suppliers/3M_2')
+                                    .end((err, response) => {
+                                        response.should.have.status(404);
+                                    done();
+                                });
+                            });
+                    });
+                });
+        });
+
+    });
+
 });
 

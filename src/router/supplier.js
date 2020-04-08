@@ -51,4 +51,21 @@ router.get('/s4s/:tenantId/suppliers/:id', auth, async (req, res) => {
     };
 });
 
+//Deletes a supplier
+router.delete('/s4s/:tenantId/suppliers/:id', auth, async (req, res) => {
+    var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
+    if(validationResponse.tenantInvalid){
+        return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
+    }
+    try{
+        const supplier = await Supplier.findOneAndDelete({ supplier_id: req.params.id, tenant_id: req.params.tenantId });
+        if(!supplier){
+            return res.status(404).send();
+        }
+        res.send(supplier);
+    }catch(e){
+        res.status(500).send();
+    }
+});
+
 module.exports = router;

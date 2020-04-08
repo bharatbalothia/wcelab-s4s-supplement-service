@@ -106,4 +106,21 @@ router.get('/s4s/:tenantId/products/tag/:id', auth, async (req, res) => {
     };
 });
 
+//Deletes a product
+router.delete('/s4s/:tenantId/products/:id', auth, async (req, res) => {
+    var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
+    if(validationResponse.tenantInvalid){
+        return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
+    }
+    try{
+        const product = await Product.findOneAndDelete({ item_id: req.params.id, tenant_id: req.params.tenantId });
+        if(!product){
+            return res.status(404).send();
+        }
+        res.send(product);
+    }catch(e){
+        res.status(500).send();
+    }
+});
+
 module.exports = router;

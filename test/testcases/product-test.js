@@ -161,5 +161,54 @@ describe('Product API', () => {
         });
     });
 
+    /**
+     * Test the DELETE route
+     */
+    describe('DELETE /s4s/{tenantId}/products/:id', () => {
+        it('should DELETE the product', (done) => {
+
+            var product = {
+                "tags": [
+                    "ppe",
+                    "mask",
+                    "medical"
+                ],
+                "item_id": "N95-L-2000-MASK",
+                "description": "N95 Mask Size Large Pack of 2000",
+                "unit_of_measure": "EACH",
+                "category": "PPE"
+            };
+            chai.request(server)
+                .post('/s4s/t10001/products')
+                .send(product)
+                .end((err, response) => {
+                    response.should.have.status(201);
+                    response.body.should.be.a('object');
+
+                    chai.request(server)
+                    .get('/s4s/t10001/products/N95-L-2000-MASK')
+                    .end((err, response) => {
+                        response.should.have.status(200);
+                        response.body.should.be.a('object');
+
+                        chai.request(server)
+                            .delete('/s4s/t10001/products/N95-L-2000-MASK')
+                            .end((err, response) => {
+                                response.should.have.status(200);
+                                response.body.should.be.a('object');
+
+                                chai.request(server)
+                                    .get('/s4s/t10001/products/N95-L-2000-MASK')
+                                    .end((err, response) => {
+                                        response.should.have.status(404);
+                                    done();
+                                });
+                            });
+                    });
+                });
+        });
+
+    });
+
 });
 
