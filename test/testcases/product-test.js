@@ -162,10 +162,10 @@ describe('Product API', () => {
     });
 
     /**
-     * Test the DELETE route
+     * Test the PATCH route
      */
-    describe('DELETE /s4s/{tenantId}/products/:id', () => {
-        it('should DELETE the product', (done) => {
+    describe('PATCH /s4s/{tenantId}/products/:id', () => {
+        it('should PATCH the product', (done) => {
 
             var product = {
                 "tags": [
@@ -177,6 +177,10 @@ describe('Product API', () => {
                 "description": "N95 Mask Size Large Pack of 2000",
                 "unit_of_measure": "EACH",
                 "category": "PPE"
+            };
+            var patchedProduct = {
+                "item_id": "N95-L-2000-MASK",
+                "description": "N95 Mask Size Large Pack of 2000 Model 2"
             };
             chai.request(server)
                 .post('/s4s/t10001/products')
@@ -190,15 +194,68 @@ describe('Product API', () => {
                     .end((err, response) => {
                         response.should.have.status(200);
                         response.body.should.be.a('object');
+                        response.body.should.have.property('description', 'N95 Mask Size Large Pack of 2000');
 
                         chai.request(server)
-                            .delete('/s4s/t10001/products/N95-L-2000-MASK')
+                            .patch('/s4s/t10001/products/N95-L-2000-MASK')
+                            .send(patchedProduct)
                             .end((err, response) => {
                                 response.should.have.status(200);
                                 response.body.should.be.a('object');
 
                                 chai.request(server)
                                     .get('/s4s/t10001/products/N95-L-2000-MASK')
+                                    .end((err, response) => {
+                                        response.should.have.status(200);
+                                        response.body.should.be.a('object');
+                                        response.body.should.have.property('description', 'N95 Mask Size Large Pack of 2000 Model 2');
+                                    done();
+                                });
+                            });
+                    });
+                });
+        });
+
+    });
+
+    /**
+     * Test the DELETE route
+     */
+    describe('DELETE /s4s/{tenantId}/products/:id', () => {
+        it('should DELETE the product', (done) => {
+
+            var product = {
+                "tags": [
+                    "ppe",
+                    "mask",
+                    "medical"
+                ],
+                "item_id": "N95-L-3000-MASK",
+                "description": "N95 Mask Size Large Pack of 3000",
+                "unit_of_measure": "EACH",
+                "category": "PPE"
+            };
+            chai.request(server)
+                .post('/s4s/t10001/products')
+                .send(product)
+                .end((err, response) => {
+                    response.should.have.status(201);
+                    response.body.should.be.a('object');
+
+                    chai.request(server)
+                    .get('/s4s/t10001/products/N95-L-3000-MASK')
+                    .end((err, response) => {
+                        response.should.have.status(200);
+                        response.body.should.be.a('object');
+
+                        chai.request(server)
+                            .delete('/s4s/t10001/products/N95-L-3000-MASK')
+                            .end((err, response) => {
+                                response.should.have.status(200);
+                                response.body.should.be.a('object');
+
+                                chai.request(server)
+                                    .get('/s4s/t10001/products/N95-L-3000-MASK')
                                     .end((err, response) => {
                                         response.should.have.status(404);
                                     done();

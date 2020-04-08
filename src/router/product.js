@@ -123,4 +123,21 @@ router.delete('/s4s/:tenantId/products/:id', auth, async (req, res) => {
     }
 });
 
+//Updates/Patches a product
+router.patch('/s4s/:tenantId/products/:id', auth, async (req, res) => {
+    var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
+    if(validationResponse.tenantInvalid){
+        return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
+    }
+    try{
+        const product = await Product.findOneAndUpdate({ item_id: req.params.id, tenant_id: req.params.tenantId }, req.body, { new : true });
+        if(!product){
+            return res.status(404).send();
+        }
+        res.send(product);
+    }catch(e){
+        res.status(500).send();
+    }
+});
+
 module.exports = router;
