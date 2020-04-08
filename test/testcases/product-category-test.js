@@ -90,5 +90,47 @@ describe('Product Category API', () => {
 
     });
 
+    /**
+     * Test the DELETE route
+     */
+    describe('DELETE /s4s/{tenantId}/product/category/:categoryId', () => {
+        it('should DELETE the product category', (done) => {
+
+            var category = {
+                "category_id": "OXYGEN",
+                "category_description": "Oxygen Cylinders"
+            };
+            chai.request(server)
+                .post('/s4s/t10001/product/category')
+                .send(category)
+                .end((err, response) => {
+                    response.should.have.status(201);
+                    response.body.should.be.a('object');
+
+                    chai.request(server)
+                    .get('/s4s/t10001/product/category/OXYGEN')
+                    .end((err, response) => {
+                        response.should.have.status(200);
+                        response.body.should.be.a('object');
+
+                        chai.request(server)
+                            .delete('/s4s/t10001/product/category/OXYGEN')
+                            .end((err, response) => {
+                                response.should.have.status(200);
+                                response.body.should.be.a('object');
+
+                                chai.request(server)
+                                    .get('/s4s/t10001/product/category/OXYGEN')
+                                    .end((err, response) => {
+                                        response.should.have.status(404);
+                                    done();
+                                });
+                            });
+                    });
+                });
+        });
+
+    });
+
 });
 

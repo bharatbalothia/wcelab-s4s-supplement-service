@@ -33,4 +33,39 @@ router.get('/s4s/:tenantId/product/categories', auth, async (req, res) => {
     }
 });
 
+//Gets the detail of a product category
+router.get('/s4s/:tenantId/product/category/:categoryId', auth, async (req, res) => {
+    var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
+    if(validationResponse.tenantInvalid){
+        console.log("tenant %s invalid", eq.params.tenantId);
+        return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
+    }
+    try{
+        const productCategory = await ProductCategory.findOne({ category_id: req.params.categoryId, tenant_id: req.params.tenantId });
+        if(!productCategory){
+            return res.status(404).send();
+        }
+        res.send(productCategory);
+    }catch(e){
+        res.status(500).send();
+    }
+});
+
+//Deletes a product category
+router.delete('/s4s/:tenantId/product/category/:categoryId', auth, async (req, res) => {
+    var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
+    if(validationResponse.tenantInvalid){
+        return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
+    }
+    try{
+        const productCategory = await ProductCategory.findOneAndDelete({ category_id: req.params.categoryId, tenant_id: req.params.tenantId });
+        if(!productCategory){
+            return res.status(404).send();
+        }
+        res.send(productCategory);
+    }catch(e){
+        res.status(500).send();
+    }
+});
+
 module.exports = router;

@@ -144,5 +144,22 @@ describe('Product API', () => {
 
     });
 
+    /**
+     * Test the POST route for multiple product search
+     */
+    describe('POST /s4s/{tenantId}/productslist', () => {
+        it('should search all the products with item_id in the input', (done) => {
+            chai.request(server)
+                .post('/s4s/t10001/productslist')
+                .send({ item_id: ["VENTILATOR-3M-2000G", "N95-L-100-MASK"] })
+                .end((err, response) => {
+                    response.should.have.status(200);
+                    response.body.should.be.a('array');
+                    expect(response.body).to.have.lengthOf(2);
+                done();
+            });
+        });
+    });
+
 });
 
