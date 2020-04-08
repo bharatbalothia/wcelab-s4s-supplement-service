@@ -6,6 +6,8 @@ const shipNodeSchema = new mongoose.Schema({
     shipnode_name: String,
     supplier_id: { type: String, required: true },
     tenant_id: { type: String, required: true },
+    latitude: String,
+    longitude: String,
     address_attributes: [
         {
             name: String,
