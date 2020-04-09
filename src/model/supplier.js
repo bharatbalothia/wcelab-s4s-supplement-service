@@ -7,6 +7,7 @@ const supplierSchema = new mongoose.Schema({
     supplier_type: String,
     tenant_id: String,
     supplier_mailslot_id: String,
+    supplier_url: String,
     address_attributes: [
         {
             name: String,

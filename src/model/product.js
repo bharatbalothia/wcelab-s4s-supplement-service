@@ -7,7 +7,8 @@ const productSchema = new mongoose.Schema({
     unit_of_measure: { type: String, default: 'UNIT' },
     tags: [String],
     category: String,
-    tenant_id: { type: String, required: true }
+    tenant_id: { type: String, required: true },
+    image_url: String
 });
 
 productSchema.index({ item_id: 1, unit_of_measure: 1, tenant_id: 1 }, { unique: true });
