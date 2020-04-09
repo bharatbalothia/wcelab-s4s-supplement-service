@@ -8,6 +8,9 @@ const supplierSchema = new mongoose.Schema({
     tenant_id: String,
     supplier_mailslot_id: String,
     supplier_url: String,
+    contact_person: String,
+    contact_email: String,
+    supplier_twitter: String,
     address_attributes: [
         {
             name: String,
