@@ -1,4 +1,4 @@
-const User = require('../model/user');
+const Client = require('../model/client');
 
 const auth = async (req, res, next) => {
 
@@ -15,13 +15,13 @@ const auth = async (req, res, next) => {
     const base64Credentials = req.headers.authorization.split(' ')[1];
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
     const [client_id, client_secret] = credentials.split(':');
-    var userQuery = { client_id: client_id, client_secret: client_secret };
+    var clientQuery = { client_id: client_id, client_secret: client_secret };
     if(requiresAdminAccess(req.url)){
-        userQuery.client_type = "ADMIN";
+        clientQuery.client_type = "ADMIN";
     }
 
-    const user = await User.findOne(userQuery);
-    if (!user) {
+    const client = await Client.findOne(clientQuery);
+    if (!client) {
         return res.status(401).json({ message: 'Invalid Authentication Credentials' });
     }
 
