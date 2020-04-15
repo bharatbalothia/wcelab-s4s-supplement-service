@@ -9,6 +9,7 @@ const supplierRouter = require('./router/supplier');
 const shipNodeRouter = require('./router/shipnode');
 const ivCredentialRouter = require('./router/iv-credential');
 const tenantRouter = require('./router/tenant');
+const userRouter = require('./router/user');
 const infoRouter = require('./router/info');
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(productCategoryRouter);
 app.use(supplierRouter);
 app.use(shipNodeRouter);
 app.use(tenantRouter);
+app.use(userRouter);
 app.use(ivCredentialRouter);
 app.use(infoRouter);
 

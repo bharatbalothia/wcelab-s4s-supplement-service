@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
-const clientSchema = new mongoose.Schema({
-    client_name: String,
-    client_type: String,
-    client_id: String,
-    client_secret: String
+const userSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    tenant_id: { type: String, required: true },
+    buyers: [String],
+    sellers: [String]
 });
 
-clientSchema.index({ client_name: 1 }, { unique: true });
-clientSchema.plugin(uniqueValidator);
+userSchema.index({ username: 1, tenant_id: 1 }, { unique: true });
+userSchema.plugin(uniqueValidator);
 
-const Client = mongoose.model('Client', clientSchema);
+const User = mongoose.model('User', userSchema);
 
-module.exports = Client;
+module.exports = User;

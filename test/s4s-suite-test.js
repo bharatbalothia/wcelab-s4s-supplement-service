@@ -33,6 +33,7 @@ describe("S4S Test Suite", () => {
     importTestSet('./testcases/product-test');
     importTestSet('./testcases/supplier-test');
     importTestSet('./testcases/shipnode-test');
+    importTestSet('./testcases/user-test');
 
     after(() => {
         console.log("... ending S4S Test Suite !!!");
