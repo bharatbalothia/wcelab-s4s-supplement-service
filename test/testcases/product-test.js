@@ -161,6 +161,23 @@ describe('Product API', () => {
         });
     });
 
+        /**
+     * Test the POST route for productslist entitled by the passed supplierids
+     */
+    describe('POST /s4s/{tenantId}/productslist/bysupplierids', () => {
+        it('should search all the products with item_id in the input', (done) => {
+            chai.request(server)
+                .post('/s4s/t10001/productslist/bysupplierids')
+                .send({ supplier_ids: ["3M", "CVS"] })
+                .end((err, response) => {
+                    response.should.have.status(200);
+                    response.body.should.be.a('array');
+                    expect(response.body).to.have.lengthOf(2);
+                done();
+            });
+        });
+    });
+
     /**
      * Test the PATCH route
      */
