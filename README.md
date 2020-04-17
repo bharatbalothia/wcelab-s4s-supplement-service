@@ -18,6 +18,13 @@ Services supplements IV to enable the functionality of S4S Supply View UI and po
 - MongoDB
 - Node.js
 
-## Approach
+## Build and Deployment process
 
-...
+The continuous delivery process for build and deployment on dev is configured by a toolchain.
+
+Here are the steps to deploy this service on the cloud.
+
+1. Commit/merge your changes to the master branch of the git repo (https://github.ibm.com/wcelab/s4s-supplement-service.git)
+2. Toolchain has been configured that will automatically pull the latest code from git master branch and start building the artifacts.
+3. The built artifacts will be deployed on cloud foundry under the app name of 's4s-supplement-service-dev'.
+4. Verify that the version is updated at https://s4s-supplement-service-dev.mybluemix.net/s4s/info after the new container is deployed with the latest code. (Version needs to be incremented with every commit under the file /src/router/info.js)
