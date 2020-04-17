@@ -34,6 +34,7 @@ describe('Product API', () => {
                 "item_id": "VENTILATOR-3M-2000G",
                 "description": "3M 2000G Ventilator",
                 "unit_of_measure": "EACH",
+                "supplier_id": "3M",
                 "category": "EQUIPMENT"
             };
             chai.request(server)
@@ -56,6 +57,7 @@ describe('Product API', () => {
                 "item_id": "N95-L-100-MASK",
                 "description": "N95 Mask Size Large Pack of 100",
                 "unit_of_measure": "EACH",
+                "supplier_id": "CVS",
                 "category": "PPE"
             };
             chai.request(server)
@@ -78,6 +80,7 @@ describe('Product API', () => {
                 "item_id": "N95-L-100-MASK",
                 "description": "N95 Mask Size Large Pack of 100",
                 "unit_of_measure": "EACH",
+                "supplier_id": "3M",
                 "category": "PPE"
             };
             chai.request(server)
@@ -162,12 +165,12 @@ describe('Product API', () => {
     });
 
         /**
-     * Test the POST route for productslist entitled by the passed supplierids
+     * Test the POST route for products entitled by the passed suppliers
      */
-    describe('POST /s4s/{tenantId}/productslist/bysupplierids', () => {
+    describe('POST /s4s/{tenantId}/suppliers/products', () => {
         it('should search all the products with item_id in the input', (done) => {
             chai.request(server)
-                .post('/s4s/t10001/productslist/bysupplierids')
+                .post('/s4s/t10001/suppliers/products')
                 .send({ supplier_ids: ["3M", "CVS"] })
                 .end((err, response) => {
                     response.should.have.status(200);
