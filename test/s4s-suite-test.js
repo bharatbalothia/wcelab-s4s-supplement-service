@@ -32,6 +32,7 @@ describe("S4S Test Suite", () => {
     importTestSet('./testcases/product-category-test');
     importTestSet('./testcases/product-test');
     importTestSet('./testcases/supplier-test');
+    importTestSet('./testcases/buyer-test');
     importTestSet('./testcases/shipnode-test');
     importTestSet('./testcases/user-test');
 
