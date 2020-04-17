@@ -39,7 +39,7 @@ router.post('/s4s/:tenantId/productslist', auth, async (req, res) => {
 });
 
 //Gets all  productslist entitled for the supplier ids
-router.post('/s4s/:tenantId/productslist/bysupplierids', auth, async (req, res) => {
+router.post('/s4s/:tenantId/suppliers/products', auth, async (req, res) => {
     var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
     if(validationResponse.tenantInvalid){
         return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
