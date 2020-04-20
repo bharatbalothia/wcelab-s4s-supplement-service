@@ -1,0 +1,1114 @@
+swagger: "2.0"
+info:
+  description: "S4S Microservice provides supplemental information to SCBN, APP Connect, BUC, and IV"
+  version: "1.2.5"
+  title: "S4S Supplemental Service"
+  contact:
+    email: "nobody@nowhere.com"
+host: "s4s-supplement-service-dev.mybluemix.net"
+basePath: "/s4s/v2"
+
+tags:
+- name: "Buyers"
+  description: "Companies that are buyers in the system. The buyer company establishes relationships with supplier companies. Any user within a buyer company have visibility to same set of suppliers."
+
+- name: "Suppliers"
+  description: "Companies that are suppliers in the system. The supplier company establishes relationships with buyer companies. Any user within a supplier company provides information to all connected buyers"
+
+- name: "Product Categories"
+  description: "Product Categories are the high level categories of products this system tracks."
+
+- name: "Products"
+  description: "Product and items that are tracked in this system. Each supplier define its products and relate them to a category of high level items that are tracked in the system."
+
+- name: "Ship Nodes"
+  description: "Ship nodes are suppliers' manufacture plants, warehouses, distribution centers, and stores where inventories are."
+
+- name: "Users"
+  description: "Users of the system. A user belongs to a supplier company or a buyer company. There is the possibility that a user could belong to multiple companies."
+
+
+schemes:
+- "https"
+- "http"
+
+
+paths:
+
+  /{tenant_id}/buyers:
+    get:
+      tags:
+      - "Buyers"
+      summary: "list buyers"
+      description: "Get the complete list of buyers"
+      operationId: "buyers-get"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of the tenant"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/buyer"
+        500:
+          description: "Invalid status value"
+          
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+        
+  /{tenant_id}/buyers/{buyer_id}:
+    put:
+      tags:
+      - "Buyers"
+      summary: "create/update a buyer"
+      description: "Create or update a buyer"
+      operationId: "buyer-put"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of buyer to be updated"
+        required: true
+        type: "string"
+      - name: "buyer_id"
+        in: "path"
+        description: "ID of buyer to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Object to update to"
+        required: true
+        schema:
+          $ref: "#/definitions/buyer"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/buyer"
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+    delete:
+      tags:
+      - "Buyers"
+      summary: "delete a buyer"
+      description: "Delete a buyer by buyer id"
+      operationId: "buyer-delete"
+      
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of buyer to be updated"
+        required: true
+        type: "string"
+      - name: "buyer_id"
+        in: "path"
+        description: "ID of buyer to be updated"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+    get:
+      tags:
+      - "Buyers"
+      summary: "get a buyer"
+      description: "Get a buyer by id"
+      operationId: "buyer-get"
+      
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of buyer to retrieve"
+        required: true
+        type: "string"
+      - name: "buyer_id"
+        in: "path"
+        description: "ID of buyer to retrieve"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: '#/definitions/buyer'
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+  
+  
+  /{tenant_id}/suppliers:
+    get:
+      tags:
+      - "Suppliers"
+      summary: "list suppliers"
+      description: "Get the complete list of suppliers"
+      operationId: "suppliers-get"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of the tenant"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/supplier"
+        500:
+          description: "Invalid status value"
+          
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+        
+  /{tenant_id}/suppliers/{supplier_id}:
+    put:
+      tags:
+      - "Suppliers"
+      summary: "create/update a supplier"
+      description: "Create or update a supplier"
+      operationId: "supplier-put"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of supplier to be updated"
+        required: true
+        type: "string"
+      - name: "supplier_id"
+        in: "path"
+        description: "ID of supplier to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Object to update to"
+        required: true
+        schema:
+          $ref: "#/definitions/supplier"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/supplier"
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+    delete:
+      tags:
+      - "Suppliers"
+      summary: "delete a supplier"
+      description: "Delete a supplier by supplier id"
+      operationId: "supplier-delete"
+      
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of supplier to be updated"
+        required: true
+        type: "string"
+      - name: "supplier_id"
+        in: "path"
+        description: "ID of supplier to be updated"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+                  
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+    get:
+      tags:
+      - "Suppliers"
+      summary: "get a supplier"
+      description: "Get a supplier by id"
+      operationId: "supplier-get"
+      
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of supplier to retrieve"
+        required: true
+        type: "string"
+      - name: "supplier_id"
+        in: "path"
+        description: "ID of supplier to retrieve"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: '#/definitions/supplier'
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+
+  /{tenant_id}/suppliers/{supplier_id}/products:
+    get:
+      tags:
+      - "Suppliers"
+      summary: "list a supplier's product"
+      description: "Get a complete list of products of a supplier"
+      operationId: "supplier-product-get"
+      
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of supplier to retrieve"
+        required: true
+        type: "string"
+      - name: "supplier_id"
+        in: "path"
+        description: "ID of supplier to retrieve"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/product"
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+
+  /{tenant_id}/suppliers/{supplier_id}/shipnodes:
+    get:
+      tags:
+      - "Suppliers"
+      summary: "list a supplier's shipnodes"
+      description: "Get a complete list of shipnodes of a supplier"
+      operationId: "supplier-shipnode-get"
+      
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of supplier to retrieve"
+        required: true
+        type: "string"
+      - name: "supplier_id"
+        in: "path"
+        description: "ID of supplier to retrieve"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/shipnode"
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+
+  /{tenant_id}/products:
+    get:
+      tags:
+      - "Products"
+      summary: "list products"
+      description: "Get the complete list of products"
+      operationId: "products-get"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of the tenant"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/product"
+        500:
+          description: "Invalid status value"
+          
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+        
+  /{tenant_id}/products/{product_id}:
+    put:
+      tags:
+      - "Products"
+      summary: "create/update a product"
+      description: "Create or update a product"
+      operationId: "product-put"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of product to be updated"
+        required: true
+        type: "string"
+      - name: "product_id"
+        in: "path"
+        description: "ID of product to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Object to update to"
+        required: true
+        schema:
+          $ref: "#/definitions/product"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/product"
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+    delete:
+      tags:
+      - "Products"
+      summary: "delete a product"
+      description: "Delete a product by product id"
+      operationId: "product-delete"
+      
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of product to be updated"
+        required: true
+        type: "string"
+      - name: "product_id"
+        in: "path"
+        description: "ID of product to be updated"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+    get:
+      tags:
+      - "Products"
+      summary: "get a product"
+      description: "Get a product by id"
+      operationId: "product-get"
+      
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of product to retrieve"
+        required: true
+        type: "string"
+      - name: "product_id"
+        in: "path"
+        description: "ID of product to retrieve"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: '#/definitions/product'
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+
+  /{tenant_id}/productcategories:
+    get:
+      tags:
+      - "Product Categories"
+      summary: "list productcategories"
+      description: "Get the complete list of productcategories"
+      operationId: "productcategories-get"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of the tenant"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/productcategory"
+        500:
+          description: "Invalid status value"
+          
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+        
+  /{tenant_id}/productcategories/{productcategory_id}:
+    put:
+      tags:
+      - "Product Categories"
+      summary: "create/update a product category"
+      description: "Create or update a product category"
+      operationId: "productcategory-put"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of product category to be updated"
+        required: true
+        type: "string"
+      - name: "productcategory_id"
+        in: "path"
+        description: "ID of product category to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Object to update to"
+        required: true
+        schema:
+          $ref: "#/definitions/productcategory"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/productcategory"
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+    delete:
+      tags:
+      - "Product Categories"
+      summary: "delete a productcategorie"
+      description: "Delete a product category by productcategory id. This does not delete the products in the category but those product will not be visibile from critical supply ui."
+      operationId: "productcategory-delete"
+      
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of product category to be updated"
+        required: true
+        type: "string"
+      - name: "productcategory_id"
+        in: "path"
+        description: "ID of product category to be updated"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+    get:
+      tags:
+      - "Product Categories"
+      summary: "get a product category"
+      description: "Get a product category by id"
+      operationId: "productcategory-get"
+      
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of product category to retrieve"
+        required: true
+        type: "string"
+      - name: "productcategory_id"
+        in: "path"
+        description: "ID of product category to retrieve"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: '#/definitions/productcategory'
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+
+
+  /{tenant_id}/productcategories/{productcategory_id}/products:
+    get:
+      tags:
+      - "Product Categories"
+      summary: "list products in a category"
+      description: "Get complete list of products in a category"
+      operationId: "productcategory-product-get"
+      
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of product category from which the products to be retrieved"
+        required: true
+        type: "string"
+      - name: "productcategory_id"
+        in: "path"
+        description: "ID of product category from which the products to be retrieved"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/product'
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"        
+
+  /{tenant_id}/shipnodes:
+    get:
+      tags:
+      - "Ship Nodes"
+      summary: "list shipnodes"
+      description: "Get the complete list of shipnodes"
+      operationId: "shipnodes-get"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of the tenant"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/shipnode"
+        500:
+          description: "Invalid status value"
+          
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+        
+  /{tenant_id}/shipnodes/{shipnode_id}:
+    put:
+      tags:
+      - "Ship Nodes"
+      summary: "create/update a shipnode"
+      description: "Create or update a shipnode"
+      operationId: "shipnode-put"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of shipnode to be updated"
+        required: true
+        type: "string"
+      - name: "shipnode_id"
+        in: "path"
+        description: "ID of shipnode to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Object to update to"
+        required: true
+        schema:
+          $ref: "#/definitions/shipnode"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/shipnode"
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+    delete:
+      tags:
+      - "Ship Nodes"
+      summary: "delete a shipnode"
+      description: "Delete a shipnode by shipnode id"
+      operationId: "shipnode-delete"
+      
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of shipnode to be updated"
+        required: true
+        type: "string"
+      - name: "shipnode_id"
+        in: "path"
+        description: "ID of shipnode to be updated"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+    get:
+      tags:
+      - "Ship Nodes"
+      summary: "get a shipnode"
+      description: "Get a shipnode by id"
+      operationId: "shipnode-get"
+      
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of shipnode to retrieve"
+        required: true
+        type: "string"
+      - name: "shipnode_id"
+        in: "path"
+        description: "ID of shipnode to retrieve"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: '#/definitions/shipnode'
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+
+  /{tenant_id}/users:
+    get:
+      tags:
+      - "Users"
+      summary: "list users"
+      description: "Get the complete list of users"
+      operationId: "users-get"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of the tenant"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/user"
+        400:
+          description: "Invalid status value"
+          
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+        
+  /{tenant_id}/users/{user_id}:
+    put:
+      tags:
+      - "Users"
+      summary: "create/update a user"
+      description: "Create or update a user"
+      operationId: "user-put"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of user to be updated"
+        required: true
+        type: "string"
+      - name: "user_id"
+        in: "path"
+        description: "ID of user to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Object to update to"
+        required: true
+        schema:
+          $ref: "#/definitions/user"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/user"
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+    delete:
+      tags:
+      - "Users"
+      summary: "delete a user"
+      description: "Delete a user by user id"
+      operationId: "user-delete"
+      
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of user to be updated"
+        required: true
+        type: "string"
+      - name: "user_id"
+        in: "path"
+        description: "ID of user to be updated"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+    get:
+      tags:
+      - "Users"
+      summary: "get a user"
+      description: "Get a user by id"
+      operationId: "user-get"
+      
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "ID of user to retrieve"
+        required: true
+        type: "string"
+      - name: "user_id"
+        in: "path"
+        description: "ID of user to retrieve"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: '#/definitions/user'
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+    
+
+securityDefinitions:
+  s4s_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:s4s: "modify s4s entities"
+      read:s4s: "read s4s entities"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+    
+definitions:
+  buyer:
+    type: "object"
+    properties:
+      buyer_id:
+        type: "string"
+        description: "id of the buyer"
+      description:
+        type: "string"
+        description: "description of the buyer"
+      buyer_type:
+        type: "string"
+        description: "type of the buyer"
+      buyer_url:
+        type: "string"
+        description: "url of the buyer"
+      contact_email:
+        type: "string"
+        description: "contact email of the buyer"
+      contact_address:
+        type: "string"
+        description: "address of the buyer"
+      contact_person:
+        type: "string"
+        description: "contact person of the buyer"
+      buyer_twitter:
+        type: "string"
+        description: "twitter handel of the buyer"
+  
+  supplier:
+    type: "object"
+    properties:
+      supplier_id:
+        type: "string"
+        description: "id of the supplier"
+      description:
+        type: "string"
+        description: "description of the supplier"
+      supplier_type:
+        type: "string"
+        description: "type of the supplier"
+      supplier_mailslot_id:
+        type: "string"
+        description: "SCBN mailslot of the supplier"
+      supplier_url:
+        type: "string"
+        description: "url of the supplier"
+      contact_email:
+        type: "string"
+        description: "contact email of the supplier"
+      contact_person:
+        type: "string"
+        description: "contact person of the supplier"
+      supplier_twitter:
+        type: "string"
+        description: "twitter handel of the supplier"
+ 
+
+  product:
+    type: "object"
+    properties:
+      item_id:
+        type: "string"
+        description: "id of the product"
+      description:
+        type: "string"
+        description: "description of the product"
+      category:
+        type: "string"
+        description: "category of the product"
+      unit_of_measure:
+        type: "string"
+        description: "unit of measure of the product"
+      image_url:
+        type: "string"
+        description: "url of the product image"
+
+
+  productcategory:
+    type: "object"
+    properties:
+      category_id:
+        type: "string"
+        description: "id of the product category"
+      category_description:
+        type: "string"
+        description: "description of the product category"
+
+
+  shipnode:
+    type: "object"
+    properties:
+      supplier_id:
+        type: "string"
+        description: "id of the supplier of the shipnode"
+      shipnode_id:
+        type: "string"
+        description: "id of the shipnode"
+      shipnode_name:
+        type: "string"
+        description: "name of the shipnode"
+      latitude:
+        type: "string"
+        description: "latitude the shipnode"
+      longitude:
+        type: "string"
+        description: "longitude of the shipnode"
+
+  user:
+    type: "object"
+    properties:
+      user_name:
+        type: "string"
+        description: "name of the user. This the user identifier for all operations."
+      tenant_id:
+        type: "string"
+        description: "the tenant that user is in. It must be the same as the requesting system's tenant."
+      buyers:
+        type: "array"
+        description: "list of buyer companies"
+        items:
+          type: "string"
+          description: "buyer company id"
+      suppliers:
+        type: "array"
+        description: "list of supplier companies"
+        items:
+          type: "string"
+          description: "supply company id"
+
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
