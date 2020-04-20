@@ -670,7 +670,7 @@ paths:
     delete:
       tags:
       - "Product Categories"
-      summary: "delete a productcategorie"
+      summary: "delete a product category"
       description: "Delete a product category by productcategory id. This does not delete the products in the category but those product will not be visibile from critical supply ui."
       operationId: "productcategory-delete"
       
@@ -1248,16 +1248,14 @@ definitions:
         description: "the tenant that user is in. It must be the same as the requesting system's tenant."
       buyers:
         type: "array"
-        description: "list of buyer companies"
         items:
           type: "string"
-          description: "buyer company id"
+          description: "buyerCompanyId"
       suppliers:
         type: "array"
-        description: "list of supplier companies"
         items:
           type: "string"
-          description: "supply company id"
+          description: "supplyCompanyId"
 
 externalDocs:
   description: "Find out more about Swagger"
