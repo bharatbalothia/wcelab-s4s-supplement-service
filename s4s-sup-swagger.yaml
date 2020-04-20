@@ -21,6 +21,7 @@ tags:
 - name: "Products"
   description: "Product and items that are tracked in this system. Each supplier define its products and relate them to a category of high level items that are tracked in the system."
 
+
 - name: "Ship Nodes"
   description: "Ship nodes are suppliers' manufacture plants, warehouses, distribution centers, and stores where inventories are."
 
@@ -47,7 +48,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of the tenant"
+        description: "Tenant ID of the tenant"
         required: true
         type: "string"
       responses:
@@ -64,6 +65,42 @@ paths:
       - s4s_auth:
         - "write:s4s"
         - "read:s4s"
+    post:
+      tags:
+      - "Buyers"
+      summary: "create a buyer"
+      description: "Create a new buyer. Fail if the buyer id exists."
+      operationId: "buyer-post"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "Tenant ID of buyer to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Object to update to"
+        required: true
+        schema:
+          $ref: "#/definitions/buyer"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/buyer"
+        400:
+          description: "record already exist or invalid input"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+        
         
   /{tenant_id}/buyers/{buyer_id}:
     put:
@@ -79,7 +116,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of buyer to be updated"
+        description: "Tenant ID of buyer to be updated"
         required: true
         type: "string"
       - name: "buyer_id"
@@ -118,7 +155,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of buyer to be updated"
+        description: "Tenant ID of buyer to be updated"
         required: true
         type: "string"
       - name: "buyer_id"
@@ -149,7 +186,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of buyer to retrieve"
+        description: "Tenant ID of buyer to retrieve"
         required: true
         type: "string"
       - name: "buyer_id"
@@ -184,7 +221,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of the tenant"
+        description: "Tenant ID of the tenant"
         required: true
         type: "string"
       responses:
@@ -201,6 +238,46 @@ paths:
       - s4s_auth:
         - "write:s4s"
         - "read:s4s"
+    post:
+      tags:
+      - "Suppliers"
+      summary: "create a supplier"
+      description: "Create a supplier. Fail if the supplier id exists"
+      operationId: "supplier-post"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "Tenant ID of supplier to be updated"
+        required: true
+        type: "string"
+      - name: "supplier_id"
+        in: "path"
+        description: "ID of supplier to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Object to update to"
+        required: true
+        schema:
+          $ref: "#/definitions/supplier"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/supplier"
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"        
         
   /{tenant_id}/suppliers/{supplier_id}:
     put:
@@ -216,7 +293,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of supplier to be updated"
+        description: "Tenant ID of supplier to be updated"
         required: true
         type: "string"
       - name: "supplier_id"
@@ -255,7 +332,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of supplier to be updated"
+        description: "Tenant ID of supplier to be updated"
         required: true
         type: "string"
       - name: "supplier_id"
@@ -287,7 +364,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of supplier to retrieve"
+        description: "Tenant ID of supplier to retrieve"
         required: true
         type: "string"
       - name: "supplier_id"
@@ -322,7 +399,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of supplier to retrieve"
+        description: "Tenant ID of supplier to retrieve"
         required: true
         type: "string"
       - name: "supplier_id"
@@ -359,7 +436,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of supplier to retrieve"
+        description: "Tenant ID of supplier to retrieve"
         required: true
         type: "string"
       - name: "supplier_id"
@@ -395,7 +472,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of the tenant"
+        description: "Tenant ID of the tenant"
         required: true
         type: "string"
       responses:
@@ -427,7 +504,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of product to be updated"
+        description: "Tenant ID of product to be updated"
         required: true
         type: "string"
       - name: "product_id"
@@ -466,7 +543,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of product to be updated"
+        description: "Tenant ID of product to be updated"
         required: true
         type: "string"
       - name: "product_id"
@@ -497,7 +574,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of product to retrieve"
+        description: "Tenant ID of product to retrieve"
         required: true
         type: "string"
       - name: "product_id"
@@ -523,15 +600,15 @@ paths:
     get:
       tags:
       - "Product Categories"
-      summary: "list productcategories"
-      description: "Get the complete list of productcategories"
+      summary: "list product categories"
+      description: "Get the complete list of product categories"
       operationId: "productcategories-get"
       produces:
       - "application/json"
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of the tenant"
+        description: "Tenant ID of the tenant"
         required: true
         type: "string"
       responses:
@@ -540,7 +617,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/productcategory"
+              $ref: "#/definitions/productcategory4get"
         500:
           description: "Invalid status value"
           
@@ -563,7 +640,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of product category to be updated"
+        description: "Tenant ID of product category to be updated"
         required: true
         type: "string"
       - name: "productcategory_id"
@@ -576,12 +653,12 @@ paths:
         description: "Object to update to"
         required: true
         schema:
-          $ref: "#/definitions/productcategory"
+          $ref: "#/definitions/productcategory4put"
       responses:
         200:
           description: "successful operation"
           schema:
-            $ref: "#/definitions/productcategory"
+            $ref: "#/definitions/productcategory4put"
         400:
           description: "record does not exist"
         500:
@@ -602,7 +679,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of product category to be updated"
+        description: "Tenant ID of product category to be updated"
         required: true
         type: "string"
       - name: "productcategory_id"
@@ -633,7 +710,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of product category to retrieve"
+        description: "Tenant ID of product category to retrieve"
         required: true
         type: "string"
       - name: "productcategory_id"
@@ -645,7 +722,7 @@ paths:
         200:
           description: "successful operation"
           schema:
-            $ref: '#/definitions/productcategory'
+            $ref: '#/definitions/productcategory4get'
         400:
           description: "record does not exist"
         500:
@@ -669,7 +746,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of product category from which the products to be retrieved"
+        description: "Tenant ID of product category from which the products to be retrieved"
         required: true
         type: "string"
       - name: "productcategory_id"
@@ -693,6 +770,9 @@ paths:
         - "write:s4s"
         - "read:s4s"        
 
+
+
+        
   /{tenant_id}/shipnodes:
     get:
       tags:
@@ -705,7 +785,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of the tenant"
+        description: "Tenant ID of the tenant"
         required: true
         type: "string"
       responses:
@@ -737,7 +817,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of shipnode to be updated"
+        description: "Tenant ID of shipnode to be updated"
         required: true
         type: "string"
       - name: "shipnode_id"
@@ -776,7 +856,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of shipnode to be updated"
+        description: "Tenant ID of shipnode to be updated"
         required: true
         type: "string"
       - name: "shipnode_id"
@@ -807,7 +887,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of shipnode to retrieve"
+        description: "Tenant ID of shipnode to retrieve"
         required: true
         type: "string"
       - name: "shipnode_id"
@@ -841,7 +921,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of the tenant"
+        description: "Tenant ID of the tenant"
         required: true
         type: "string"
       responses:
@@ -854,6 +934,46 @@ paths:
         400:
           description: "Invalid status value"
           
+      security:
+      - s4s_auth:
+        - "write:s4s"
+        - "read:s4s"
+    post:
+      tags:
+      - "Users"
+      summary: "create a user"
+      description: "Create a user. Fail if the user id exists."
+      operationId: "user-post"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenant_id"
+        in: "path"
+        description: "Tenant ID of tenant to be updated"
+        required: true
+        type: "string"
+      - name: "user_id"
+        in: "path"
+        description: "ID of user to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Object to update to"
+        required: true
+        schema:
+          $ref: "#/definitions/user"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/user"
+        400:
+          description: "record does not exist"
+        500:
+          description: "process exception"
       security:
       - s4s_auth:
         - "write:s4s"
@@ -873,7 +993,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of user to be updated"
+        description: "Tenant ID of user to be updated"
         required: true
         type: "string"
       - name: "user_id"
@@ -912,7 +1032,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of user to be updated"
+        description: "Tenant ID of user to be updated"
         required: true
         type: "string"
       - name: "user_id"
@@ -943,7 +1063,7 @@ paths:
       parameters:
       - name: "tenant_id"
         in: "path"
-        description: "ID of user to retrieve"
+        description: "Tenant ID of user to retrieve"
         required: true
         type: "string"
       - name: "user_id"
@@ -995,18 +1115,30 @@ definitions:
       buyer_url:
         type: "string"
         description: "url of the buyer"
+      buyer_geocode:
+        type: "object"
+        properties:
+          latitude:
+            type: "string"
+          longitude:
+            type: "string"
+      buyer_twitter:
+        type: "string"
+        description: "twitter handel of the buyer"
+      suppliers:
+        type: "array"
+        items:
+          type: "string"
+          description: "supplierId"
+      contact_person:
+        type: "string"
+        description: "contact person of the buyer"
       contact_email:
         type: "string"
         description: "contact email of the buyer"
       contact_address:
         type: "string"
         description: "address of the buyer"
-      contact_person:
-        type: "string"
-        description: "contact person of the buyer"
-      buyer_twitter:
-        type: "string"
-        description: "twitter handel of the buyer"
   
   supplier:
     type: "object"
@@ -1026,15 +1158,18 @@ definitions:
       supplier_url:
         type: "string"
         description: "url of the supplier"
+      supplier_twitter:
+        type: "string"
+        description: "twitter handel of the supplier"
       contact_email:
         type: "string"
         description: "contact email of the supplier"
       contact_person:
         type: "string"
         description: "contact person of the supplier"
-      supplier_twitter:
+      contact_address:
         type: "string"
-        description: "twitter handel of the supplier"
+        description: "address of the supplier"
  
 
   product:
@@ -1057,7 +1192,7 @@ definitions:
         description: "url of the product image"
 
 
-  productcategory:
+  productcategory4put:
     type: "object"
     properties:
       category_id:
@@ -1066,6 +1201,21 @@ definitions:
       category_description:
         type: "string"
         description: "description of the product category"
+          
+  productcategory4get:
+    type: "object"
+    properties:
+      category_id:
+        type: "string"
+        description: "id of the product category"
+      category_description:
+        type: "string"
+        description: "description of the product category"
+      display_products:
+        type: "array"
+        items:
+          type: "string"
+          description: "productId"
 
 
   shipnode:
