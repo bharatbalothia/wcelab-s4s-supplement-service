@@ -31,7 +31,7 @@ describe('Product API', () => {
                 "tags": [
                     "equipment"
                 ],
-                "item_id": "VENTILATOR-3M-2000G",
+                "item_id": "VENTILaTOR-3M-2000G",
                 "description": "3M 2000G Ventilator",
                 "unit_of_measure": "EACH",
                 "supplier_id": "3M",
@@ -54,7 +54,7 @@ describe('Product API', () => {
                     "mask",
                     "medical"
                 ],
-                "item_id": "N95-L-100-MASK",
+                "item_id": "N95-L-100-mASK",
                 "description": "N95 Mask Size Large Pack of 100",
                 "unit_of_measure": "EACH",
                 "supplier_id": "CVS",
@@ -123,7 +123,7 @@ describe('Product API', () => {
 
         it('should GET product with specific category', (done) => {
             chai.request(server)
-                .get('/s4s/t10001/products/category/EQUIPMENT')
+                .get('/s4s/t10001/productcategories/EQUIPMENT/products')
                 .end((err, response) => {
                     response.should.have.status(200);
                     response.body.should.be.a('array');
@@ -182,10 +182,10 @@ describe('Product API', () => {
     });
 
     /**
-     * Test the PATCH route
+     * Test the PUT route
      */
-    describe('PATCH /s4s/{tenantId}/products/:id', () => {
-        it('should PATCH the product', (done) => {
+    describe('PUT /s4s/{tenantId}/products/:id', () => {
+        it('should PUT the product', (done) => {
 
             var product = {
                 "tags": [
@@ -198,7 +198,7 @@ describe('Product API', () => {
                 "unit_of_measure": "EACH",
                 "category": "PPE"
             };
-            var patchedProduct = {
+            var modifiedProduct = {
                 "item_id": "N95-L-2000-MASK",
                 "description": "N95 Mask Size Large Pack of 2000 Model 2"
             };
@@ -217,8 +217,8 @@ describe('Product API', () => {
                         response.body.should.have.property('description', 'N95 Mask Size Large Pack of 2000');
 
                         chai.request(server)
-                            .patch('/s4s/t10001/products/N95-L-2000-MASK')
-                            .send(patchedProduct)
+                            .put('/s4s/t10001/products/n95-L-2000-MASK')
+                            .send(modifiedProduct)
                             .end((err, response) => {
                                 response.should.have.status(200);
                                 response.body.should.be.a('object');

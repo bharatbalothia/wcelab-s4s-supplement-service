@@ -41,7 +41,7 @@ router.get('/s4s/:tenantId/buyers/:id', auth, async (req, res) => {
     }
     const _id = req.params.id;
     try{
-        const buyer = await Buyer.findOne({ buyer_id: _id, tenant_id: req.params.tenantId });
+        const buyer = await Buyer.findOne({ buyer_id: _id.toUpperCase(), tenant_id: req.params.tenantId });
         if(!buyer){
             return res.status(404).send();
         }
@@ -52,16 +52,36 @@ router.get('/s4s/:tenantId/buyers/:id', auth, async (req, res) => {
 });
 
 //Patches a buyer based on id
-router.patch('/s4s/:tenantId/buyers/:id', auth, async (req, res) => {
+// router.patch('/s4s/:tenantId/buyers/:id', auth, async (req, res) => {
+//     var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
+//     if(validationResponse.tenantInvalid){
+//         return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
+//     }
+//     const _id = req.params.id;
+//     try{
+//         const buyer = await Buyer.findOneAndUpdate({ buyer_id: _id, tenant_id: req.params.tenantId }, req.body, { new: true });
+//         if(!buyer){
+//             return res.status(404).send();
+//         }
+//         res.send(buyer);
+//     }catch(e){
+//         res.status(500).send(e);
+//     };
+// });
+
+//Puts a buyer based on id
+router.put('/s4s/:tenantId/buyers/:id', auth, async (req, res) => {
     var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
     if(validationResponse.tenantInvalid){
         return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
     }
     const _id = req.params.id;
     try{
-        const buyer = await Buyer.findOneAndUpdate({ buyer_id: _id, tenant_id: req.params.tenantId }, req.body, { new: true });
+        const buyer = await Buyer.findOneAndUpdate({ buyer_id: _id.toUpperCase(), tenant_id: req.params.tenantId }, req.body, { new: true });
         if(!buyer){
-            return res.status(404).send();
+            const buyer = new Buyer(validationResponse._body);
+            await buyer.save();
+            return res.status(201).send(buyer);
         }
         res.send(buyer);
     }catch(e){
@@ -76,7 +96,7 @@ router.delete('/s4s/:tenantId/buyers/:id', auth, async (req, res) => {
         return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
     }
     try{
-        const buyer = await Buyer.findOneAndDelete({ buyer_id: req.params.id, tenant_id: req.params.tenantId });
+        const buyer = await Buyer.findOneAndDelete({ buyer_id: (req.params.id).toUpperCase(), tenant_id: req.params.tenantId });
         if(!buyer){
             return res.status(404).send();
         }

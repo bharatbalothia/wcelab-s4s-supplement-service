@@ -38,7 +38,7 @@ router.post('/s4s/:tenantId/productslist', auth, async (req, res) => {
     }
 });
 
-//Gets all  productslist entitled for the supplier ids
+//Gets all productslist entitled for the supplier ids
 router.post('/s4s/:tenantId/suppliers/products', auth, async (req, res) => {
     var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
     if(validationResponse.tenantInvalid){
@@ -55,6 +55,24 @@ router.post('/s4s/:tenantId/suppliers/products', auth, async (req, res) => {
         res.status(500).send();
     }
 });
+
+//Gets all products entitled for the supplier id
+router.get('/s4s/:tenantId/suppliers/:supplierId/products', auth, async (req, res) => {
+    var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
+    if(validationResponse.tenantInvalid){
+        return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
+    }
+    try{
+        const products = await Product.find({ supplier_id: req.params.supplierId, tenant_id: req.params.tenantId });
+        if(!products){
+            return res.status(404).send();
+        }
+        res.send(products);
+    }catch(e){
+        res.status(500).send();
+    }
+});
+
 //Gets a list of all the items
 router.get('/s4s/:tenantId/products', auth, async (req, res) => {
     var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
@@ -88,7 +106,7 @@ router.get('/s4s/:tenantId/products/:id', auth, async (req, res) => {
 });
 
 //Gets products based on a category id
-router.get('/s4s/:tenantId/products/category/:id', auth, async (req, res) => {
+router.get('/s4s/:tenantId/productcategories/:id/products', auth, async (req, res) => {
     var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
     if(validationResponse.tenantInvalid){
         return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
@@ -141,15 +159,34 @@ router.delete('/s4s/:tenantId/products/:id', auth, async (req, res) => {
 });
 
 //Updates/Patches a product
-router.patch('/s4s/:tenantId/products/:id', auth, async (req, res) => {
+// router.patch('/s4s/:tenantId/products/:id', auth, async (req, res) => {
+//     var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
+//     if(validationResponse.tenantInvalid){
+//         return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
+//     }
+//     try{
+//         const product = await Product.findOneAndUpdate({ item_id: req.params.id, tenant_id: req.params.tenantId }, req.body, { new : true });
+//         if(!product){
+//             return res.status(404).send();
+//         }
+//         res.send(product);
+//     }catch(e){
+//         res.status(500).send();
+//     }
+// });
+
+//Manages a product
+router.put('/s4s/:tenantId/products/:id', auth, async (req, res) => {
     var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
     if(validationResponse.tenantInvalid){
         return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
     }
     try{
-        const product = await Product.findOneAndUpdate({ item_id: req.params.id, tenant_id: req.params.tenantId }, req.body, { new : true });
+        const product = await Product.findOneAndUpdate({ item_id: (req.params.id).toUpperCase(), tenant_id: req.params.tenantId }, req.body, { new : true });
         if(!product){
-            return res.status(404).send();
+            const product = new Product(validationResponse._body);
+            await product.save();
+            return res.status(201).send(product);
         }
         res.send(product);
     }catch(e){

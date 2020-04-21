@@ -29,7 +29,7 @@ describe('Supplier API', () => {
 
         it('should POST the supplier', (done) => {
             var supplier = {
-                "supplier_id":"HONEYWELL",
+                "supplier_id":"HONEYWeLL",
                 "description":"Honeywell USA Inc.",
                 "supplier_type":"Supplier",
                 "address_attributes":[
@@ -67,7 +67,7 @@ describe('Supplier API', () => {
 
         it('should POST another supplier', (done) => {
             var supplier = {
-                "supplier_id":"3M",
+                "supplier_id":"3m",
                 "description":"3M USA Inc.",
                 "supplier_type":"Supplier",
                 "address_attributes":[
@@ -160,7 +160,7 @@ describe('Supplier API', () => {
 
         it('should GET product with specific supplier_id', (done) => {
             chai.request(server)
-                .get('/s4s/t10001/suppliers/3M')
+                .get('/s4s/t10001/suppliers/3m')
                 .end((err, response) => {
                     response.should.have.status(200);
                     response.body.should.be.a('object');
@@ -172,13 +172,13 @@ describe('Supplier API', () => {
     });
 
     /**
-     * Test the PATCH route
+     * Test the PUT route
      */
-    describe('PATCH /s4s/{tenantId}/suppliers/:id', () => {
-        it('should PATCH the supplier', (done) => {
+    describe('PUT /s4s/{tenantId}/suppliers/:id', () => {
+        it('should PUT the supplier', (done) => {
 
             var supplier = {
-                "supplier_id":"3M_3",
+                "supplier_id":"3m_3",
                 "description":"3M_3 USA Inc.",
                 "supplier_type":"Supplier",
                 "address_attributes":[
@@ -204,7 +204,7 @@ describe('Supplier API', () => {
                     }
                 ]
             };
-            var patchedSupplier = {
+            var modifiedSupplier = {
                 "supplier_id":"3M_3",
                 "description":"3M_3 USA LLC",
                 "supplier_type":"Supplier",
@@ -246,8 +246,8 @@ describe('Supplier API', () => {
                         response.body.should.have.property('description', '3M_3 USA Inc.');
 
                         chai.request(server)
-                            .patch('/s4s/t10001/suppliers/3M_3')
-                            .send(patchedSupplier)
+                            .put('/s4s/t10001/suppliers/3M_3')
+                            .send(modifiedSupplier)
                             .end((err, response) => {
                                 response.should.have.status(200);
                                 response.body.should.be.a('object');
@@ -307,13 +307,13 @@ describe('Supplier API', () => {
                     response.body.should.be.a('object');
 
                     chai.request(server)
-                    .get('/s4s/t10001/suppliers/3M_2')
+                    .get('/s4s/t10001/suppliers/3m_2')
                     .end((err, response) => {
                         response.should.have.status(200);
                         response.body.should.be.a('object');
 
                         chai.request(server)
-                            .delete('/s4s/t10001/suppliers/3M_2')
+                            .delete('/s4s/t10001/suppliers/3m_2')
                             .end((err, response) => {
                                 response.should.have.status(200);
                                 response.body.should.be.a('object');

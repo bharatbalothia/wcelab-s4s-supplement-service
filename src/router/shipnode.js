@@ -5,7 +5,7 @@ const dbUtil = require('../util/db-util');
 const router = new express.Router();
 
 //Create a new supplier
-router.post('/s4s/:tenantId/supplier/:supplierId/shipnodes', auth, async (req, res) => {
+router.post('/s4s/:tenantId/suppliers/:supplierId/shipnodes', auth, async (req, res) => {
     var validationResponse = await dbUtil.validateTenantAndSupplier(req.params.tenantId, req.params.supplierId, req.body);
     if(validationResponse.tenantInvalid){
         return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
@@ -32,7 +32,7 @@ router.post('/s4s/:tenantId/supplier/:supplierId/shipnodes', auth, async (req, r
 });
 
 //Gets a list of all the shipnodes for the supplier
-router.get('/s4s/:tenantId/supplier/:supplierId/shipnodes', auth, async (req, res) => {
+router.get('/s4s/:tenantId/suppliers/:supplierId/shipnodes', auth, async (req, res) => {
     var validationResponse = await dbUtil.validateTenantAndSupplier(req.params.tenantId, req.params.supplierId, req.body);
     if(validationResponse.tenantInvalid){
         return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});

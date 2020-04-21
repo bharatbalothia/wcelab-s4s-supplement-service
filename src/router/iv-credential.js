@@ -90,7 +90,7 @@ router.post('/s4s/iv-token', auth, async (req, res) => {
             // tokenMemoryCache.printCache();
         }
 
-        const supplier = await Supplier.findOne({ supplier_mailslot_id: supplierMailslotId });
+        const supplier = await Supplier.findOne({ supplier_mailslot_id: supplierMailslotId, tenant_id: ivTenantId });
                 
         //Return the json response
         var jsonResponse = {};
@@ -98,6 +98,8 @@ router.post('/s4s/iv-token', auth, async (req, res) => {
         jsonResponse['buyer_scbn_id'] = buyerSCBNId;
         if(supplier){
             jsonResponse['supplier_id'] = supplier.supplier_id;
+        }else{
+            res.status(404).send({ message: 'SCBN Buyer Id ' + buyerSCBNId + ' is not valid. The supplier could not be found.' });
         }
         jsonResponse['iv_tenant_id'] = ivTenantId;
         jsonResponse['bearer_token'] = bearerToken;

@@ -12,10 +12,10 @@ describe('Product Category API', () => {
     /**
      * Test the POST route
      */
-    describe('POST /s4s/{tenantId}/product/category', () => {
+    describe('POST /s4s/{tenantId}/productcategories', () => {
         it('should NOT POST the product category without category_id', (done) => {
             chai.request(server)
-                .post('/s4s/t10001/product/category')
+                .post('/s4s/t10001/productcategories')
                 .end((err, response) => {
                     response.should.have.status(400);
                     response.body.should.be.a('object');
@@ -32,7 +32,7 @@ describe('Product Category API', () => {
                 "category_description": "Person Protection Equipment"
             };
             chai.request(server)
-                .post('/s4s/t10001/product/category')
+                .post('/s4s/t10001/productcategories')
                 .send(product)
                 .end((err, response) => {
                     response.should.have.status(201);
@@ -43,11 +43,11 @@ describe('Product Category API', () => {
 
         it('should POST another product category', (done) => {
             var product = {
-                "category_id": "EQUIPMENT",
+                "category_id": "equipment",
                 "category_description": "Medical Equipments"
             };
             chai.request(server)
-                .post('/s4s/t10001/product/category')
+                .post('/s4s/t10001/productcategories')
                 .send(product)
                 .end((err, response) => {
                     response.should.have.status(201);
@@ -62,7 +62,7 @@ describe('Product Category API', () => {
                 "category_description": "Medical Equipments"
             };
             chai.request(server)
-                .post('/s4s/t10001/product/category')
+                .post('/s4s/t10001/productcategories')
                 .send(product)
                 .end((err, response) => {
                     response.should.have.status(400);
@@ -76,10 +76,10 @@ describe('Product Category API', () => {
     /**
      * Test the GET route
      */
-    describe('GET /s4s/{tenantId}/product/categories', () => {
+    describe('GET /s4s/{tenantId}/productcategories', () => {
         it('should GET all the product categories', (done) => {
             chai.request(server)
-                .get('/s4s/t10001/product/categories')
+                .get('/s4s/t10001/productcategories')
                 .end((err, response) => {
                     response.should.have.status(200);
                     response.body.should.be.a('array');
@@ -93,7 +93,7 @@ describe('Product Category API', () => {
     /**
      * Test the DELETE route
      */
-    describe('DELETE /s4s/{tenantId}/product/category/:categoryId', () => {
+    describe('DELETE /s4s/{tenantId}/productcategories/:categoryId', () => {
         it('should DELETE the product category', (done) => {
 
             var category = {
@@ -101,26 +101,26 @@ describe('Product Category API', () => {
                 "category_description": "Oxygen Cylinders"
             };
             chai.request(server)
-                .post('/s4s/t10001/product/category')
+                .post('/s4s/t10001/productcategories')
                 .send(category)
                 .end((err, response) => {
                     response.should.have.status(201);
                     response.body.should.be.a('object');
 
                     chai.request(server)
-                    .get('/s4s/t10001/product/category/OXYGEN')
+                    .get('/s4s/t10001/productcategories/OXYGEN')
                     .end((err, response) => {
                         response.should.have.status(200);
                         response.body.should.be.a('object');
 
                         chai.request(server)
-                            .delete('/s4s/t10001/product/category/OXYGEN')
+                            .delete('/s4s/t10001/productcategories/OXYGEN')
                             .end((err, response) => {
                                 response.should.have.status(200);
                                 response.body.should.be.a('object');
 
                                 chai.request(server)
-                                    .get('/s4s/t10001/product/category/OXYGEN')
+                                    .get('/s4s/t10001/productcategories/OXYGEN')
                                     .end((err, response) => {
                                         response.should.have.status(404);
                                     done();

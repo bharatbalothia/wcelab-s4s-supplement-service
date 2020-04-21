@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const shipNodeSchema = new mongoose.Schema({
-    shipnode_id: { type: String, required: true },
+    shipnode_id: { type: String, uppercase: true, required: true },
     shipnode_name: String,
     supplier_id: { type: String, required: true },
     tenant_id: { type: String, required: true },

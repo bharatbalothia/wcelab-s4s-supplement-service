@@ -92,13 +92,13 @@ describe('User API', () => {
         //     });
         // });
 
-        it('should GET product with specific supplier_id', (done) => {
+        it('should GET user with specific user_id', (done) => {
             chai.request(server)
-                .get('/s4s/t10001/users/marriottdallas')
+                .get('/s4s/t10001/users/marriottdallAs')
                 .end((err, response) => {
                     response.should.have.status(200);
                     response.body.should.be.a('object');
-                    response.body.should.have.property('username', 'marriottdallas');
+                    response.body.should.have.property('username', 'MARRIOTTDALLAS');
                 done();
             });
         });
@@ -106,17 +106,17 @@ describe('User API', () => {
     });
 
     /**
-     * Test the PATCH route
+     * Test the PUT route
      */
-    describe('PATCH /s4s/{tenantId}/users/:id', () => {
-        it('should PATCH the user', (done) => {
+    describe('PUT /s4s/{tenantId}/users/:id', () => {
+        it('should PUT the user', (done) => {
 
             var user = {
                 "username": "marriottirving",
                 "buyers": ["buyer1", "buyer2"],
                 "sellers": ["seller1", "seller2"]
             };
-            var patchedUser = {
+            var modifiedUser = {
                 "username": "marriottirving",
                 "buyers": ["buyer1", "buyer2", "buyer3"],
                 "sellers": ["seller1", "seller3"]
@@ -136,8 +136,8 @@ describe('User API', () => {
                         expect(response.body.buyers).to.have.lengthOf(2);
 
                         chai.request(server)
-                            .patch('/s4s/t10001/users/marriottirving')
-                            .send(patchedUser)
+                            .put('/s4s/t10001/users/marriottirving')
+                            .send(modifiedUser)
                             .end((err, response) => {
                                 response.should.have.status(200);
                                 response.body.should.be.a('object');

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const supplierSchema = new mongoose.Schema({
-    supplier_id: { type: String, required: true },
+    supplier_id: { type: String, uppercase: true, required: true },
     description: String,
     supplier_type: String,
     tenant_id: String,

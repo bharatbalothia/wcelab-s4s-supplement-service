@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const productCategorySchema = new mongoose.Schema({
-    category_id: { type: String, required: true },
+    category_id: { type: String, uppercase: true, required: true },
     category_description: String,
     tenant_id: { type: String, required: true }
 });

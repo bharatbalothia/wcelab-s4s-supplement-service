@@ -79,7 +79,7 @@ describe('Buyer API', () => {
 
         it('should POST another buyer', (done) => {
             var buyer = {
-                "buyer_id" : "BAYLOR2",
+                "buyer_id" : "BAYLOr2",
                 "description" : "Baylor Hospital Group",
                 "address_attributes" : [ 
                     {
@@ -196,7 +196,7 @@ describe('Buyer API', () => {
 
         it('should GET product with specific buyer_id', (done) => {
             chai.request(server)
-                .get('/s4s/t10001/buyers/BAYLOR')
+                .get('/s4s/t10001/buyers/BAYLOr')
                 .end((err, response) => {
                     response.should.have.status(200);
                     response.body.should.be.a('object');
@@ -208,13 +208,13 @@ describe('Buyer API', () => {
     });
 
     /**
-     * Test the PATCH route
+     * Test the PUT route
      */
-    describe('PATCH /s4s/{tenantId}/buyers/:id', () => {
-        it('should PATCH the buyer', (done) => {
+    describe('PUT /s4s/{tenantId}/buyers/:id', () => {
+        it('should PUT the buyer', (done) => {
 
             var buyer = {
-                "buyer_id" : "BAYLOR3",
+                "buyer_id" : "BAYLOr3",
                 "description" : "Baylor Hospital Group",
                 "address_attributes" : [ 
                     {
@@ -252,7 +252,7 @@ describe('Buyer API', () => {
                 "buyer_twitter" : "@baylorus",
                 "sellers": ["3M", "HONEYWELL", "CVS"]
             };
-            var patchedBuyer = {
+            var modifiedBuyer = {
                 "buyer_id" : "BAYLOR3",
                 "description" : "Baylor Hospital Group 3",
                 "address_attributes" : [ 
@@ -306,8 +306,8 @@ describe('Buyer API', () => {
                         response.body.should.have.property('description', 'Baylor Hospital Group');
 
                         chai.request(server)
-                            .patch('/s4s/t10001/buyers/BAYLOR3')
-                            .send(patchedBuyer)
+                            .put('/s4s/t10001/buyers/BAYLOR3')
+                            .send(modifiedBuyer)
                             .end((err, response) => {
                                 response.should.have.status(200);
                                 response.body.should.be.a('object');
@@ -333,7 +333,7 @@ describe('Buyer API', () => {
         it('should DELETE the buyer', (done) => {
 
             var buyer = {
-                "buyer_id" : "BAYLOR4",
+                "buyer_id" : "BAYLOr4",
                 "description" : "Baylor Hospital Group 3",
                 "address_attributes" : [ 
                     {
