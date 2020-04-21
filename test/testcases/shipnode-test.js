@@ -89,6 +89,60 @@ describe('ShipNode API', () => {
     });
 
     /**
+     * Test the PUT route
+     */
+    describe('PUT /s4s/{tenantId}/suppliers/{sellerId}/shipnodes/{shipNodeId}', () => {
+
+        it('should PUT the shipnode', (done) => {
+            var shipnode = {
+                "shipnode_id": "7819dS",
+                "shipnode_name": "Node 7819DS",
+                "supplier_id": "3M",
+                "address_attributes": [
+                    { "name": "Address Line 1", "value": "123 Bond St" },
+                    { "name": "city", "value": "Dallas" }
+                ]
+            };
+            var updatedShipnode = {
+                "shipnode_id": "7819dS",
+                "shipnode_name": "Node 7819DS_2",
+                "supplier_id": "3M",
+                "address_attributes": [
+                    { "name": "Address Line 1", "value": "123 Bond St" },
+                    { "name": "city", "value": "Dallas" }
+                ]
+            };
+            chai.request(server)
+            .put('/s4s/t10001/suppliers/3M/shipnodes/7819dS')
+            .send(shipnode)
+            .end((err, response) => {
+                response.should.have.status(201);
+                response.body.should.be.a('object');
+                response.body.should.have.property('shipnode_name', 'Node 7819DS');
+
+                chai.request(server)
+                .put('/s4s/t10001/suppliers/3M/shipnodes/7819dS')
+                .send(updatedShipnode)
+                .end((err, response) => {
+                    response.should.have.status(200);
+                    response.body.should.be.a('object');
+                    response.body.should.have.property('shipnode_name', 'Node 7819DS_2');
+
+                    chai.request(server)
+                    .put('/s4s/t10001/suppliers/3M/shipnodes/7819dS')
+                    .end((err, response) => {
+                        response.should.have.status(200);
+                        response.body.should.be.a('object');
+                        response.body.should.have.property('shipnode_name', 'Node 7819DS_2');
+                        done();
+                    });
+                });
+            });        
+        });
+
+    });
+
+    /**
      * Test the GET route
      */
     describe('GET /s4s/{tenantId}/suppliers/{supplierId}/shipnodes', () => {
@@ -99,7 +153,7 @@ describe('ShipNode API', () => {
                 .end((err, response) => {
                     response.should.have.status(200);
                     response.body.should.be.a('array');
-                    expect(response.body).to.have.lengthOf(4);
+                    expect(response.body).to.have.lengthOf(5);
                 done();
             });
         });
@@ -107,4 +161,3 @@ describe('ShipNode API', () => {
     });
 
 });
-

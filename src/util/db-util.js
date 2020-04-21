@@ -18,7 +18,7 @@ module.exports = {
         var tenantInvalid = false;
         var supplierInvalid = false;
         const tenant = await Tenant.findOne({ tenant_id: tenantId });
-        const supplier = await Supplier.findOne({ supplier_id: supplierId });
+        const supplier = await Supplier.findOne({ supplier_id: supplierId.toUpperCase() });
         if (!tenant) {
             tenantInvalid = true;
         }

@@ -29,7 +29,7 @@ router.post('/s4s/:tenantId/productslist', auth, async (req, res) => {
     try{
         var productList = req.body.item_id;
         const products = await Product.find({ item_id: { $in: productList }, tenant_id: req.params.tenantId });
-        if(!products){
+        if(products == null){
             return res.status(404).send();
         }
         res.send(products);
@@ -47,7 +47,7 @@ router.post('/s4s/:tenantId/suppliers/products', auth, async (req, res) => {
     try{
         var supplierList = req.body.supplier_ids;
         const products = await Product.find({ supplier_id: { $in: supplierList }, tenant_id: req.params.tenantId });
-        if(!products){
+        if(products == null){
             return res.status(404).send();
         }
         res.send(products);
@@ -64,7 +64,7 @@ router.get('/s4s/:tenantId/suppliers/:supplierId/products', auth, async (req, re
     }
     try{
         const products = await Product.find({ supplier_id: req.params.supplierId, tenant_id: req.params.tenantId });
-        if(!products){
+        if(products == null){
             return res.status(404).send();
         }
         res.send(products);
@@ -96,7 +96,7 @@ router.get('/s4s/:tenantId/products/:id', auth, async (req, res) => {
     const _id = req.params.id;
     try{
         const product = await Product.findOne({ item_id: _id, tenant_id: req.params.tenantId });
-        if(!product){
+        if(product == null){
             return res.status(404).send();
         }
         res.send(product);
@@ -114,7 +114,7 @@ router.get('/s4s/:tenantId/productcategories/:id/products', auth, async (req, re
     const _id = req.params.id;
     try{
         const products = await Product.find({ category: _id, tenant_id: req.params.tenantId });
-        if(!products){
+        if(products == null){
             return res.status(404).send();
         }
         res.send(products);
@@ -132,7 +132,7 @@ router.get('/s4s/:tenantId/products/tag/:id', auth, async (req, res) => {
     const _tag = String(req.params.id).split('&');
     try{
         const products = await Product.find({ tags: { $in: _tag }, tenant_id: req.params.tenantId });
-        if(!products){
+        if(products == null){
             return res.status(404).send();
         }
         res.send(products);
@@ -149,7 +149,7 @@ router.delete('/s4s/:tenantId/products/:id', auth, async (req, res) => {
     }
     try{
         const product = await Product.findOneAndDelete({ item_id: req.params.id, tenant_id: req.params.tenantId });
-        if(!product){
+        if(product == null){
             return res.status(404).send();
         }
         res.send(product);
@@ -166,7 +166,7 @@ router.delete('/s4s/:tenantId/products/:id', auth, async (req, res) => {
 //     }
 //     try{
 //         const product = await Product.findOneAndUpdate({ item_id: req.params.id, tenant_id: req.params.tenantId }, req.body, { new : true });
-//         if(!product){
+//         if(product == null){
 //             return res.status(404).send();
 //         }
 //         res.send(product);
@@ -183,7 +183,7 @@ router.put('/s4s/:tenantId/products/:id', auth, async (req, res) => {
     }
     try{
         const product = await Product.findOneAndUpdate({ item_id: (req.params.id).toUpperCase(), tenant_id: req.params.tenantId }, req.body, { new : true });
-        if(!product){
+        if(product == null){
             const product = new Product(validationResponse._body);
             await product.save();
             return res.status(201).send(product);

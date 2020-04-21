@@ -42,7 +42,7 @@ router.get('/s4s/:tenantId/suppliers/:id', auth, async (req, res) => {
     const _id = req.params.id;
     try{
         const supplier = await Supplier.findOne({ supplier_id: _id, tenant_id: req.params.tenantId });
-        if(!supplier){
+        if(supplier == null){
             return res.status(404).send();
         }
         res.send(supplier);
@@ -78,7 +78,7 @@ router.put('/s4s/:tenantId/suppliers/:id', auth, async (req, res) => {
     const _id = req.params.id;
     try{
         const supplier = await Supplier.findOneAndUpdate({ supplier_id: _id, tenant_id: req.params.tenantId }, req.body, { new: true });
-        if(!supplier){
+        if(supplier == null){
             const supplier = new Supplier(validationResponse._body);
             await supplier.save();
             res.status(201).send(supplier);
@@ -97,7 +97,7 @@ router.delete('/s4s/:tenantId/suppliers/:id', auth, async (req, res) => {
     }
     try{
         const supplier = await Supplier.findOneAndDelete({ supplier_id: req.params.id, tenant_id: req.params.tenantId });
-        if(!supplier){
+        if(supplier == null){
             return res.status(404).send();
         }
         res.send(supplier);

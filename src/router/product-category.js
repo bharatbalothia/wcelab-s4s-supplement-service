@@ -20,20 +20,21 @@ router.post('/s4s/:tenantId/productcategories', auth, async (req, res) => {
 });
 
 //Manage a product category
-router.put('/s4s/:tenantId/productcategories', auth, async (req, res) => {
+router.put('/s4s/:tenantId/productcategories/:categoryId', auth, async (req, res) => {
     var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
     if(validationResponse.tenantInvalid){
         return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
     }
     try{
-        const productCategory = await ProductCategory.findOneAndUpdate({ category_id: (req.params.categoryId).toUpperCase(), tenant_id: req.params.tenantId });
-        if(!productCategory){
+        const productCategory = await ProductCategory.findOneAndUpdate({ category_id: (req.params.categoryId).toUpperCase(), tenant_id: req.params.tenantId }, req.body, { new : true });
+        if(productCategory == null){
             const productCategory = new ProductCategory(validationResponse._body);
             await productCategory.save();
-            res.status(201).send(productCategory);
+            return res.status(201).send(productCategory);
         }
         res.send(productCategory);
     }catch(e){
+        console.log(e);
         res.status(400).send(e);
     }
 });
@@ -61,7 +62,7 @@ router.get('/s4s/:tenantId/productcategories/:categoryId', auth, async (req, res
     }
     try{
         const productCategory = await ProductCategory.findOne({ category_id: (req.params.categoryId).toUpperCase(), tenant_id: req.params.tenantId });
-        if(!productCategory){
+        if(productCategory == null){
             return res.status(404).send();
         }
         res.send(productCategory);
@@ -78,7 +79,7 @@ router.delete('/s4s/:tenantId/productcategories/:categoryId', auth, async (req, 
     }
     try{
         const productCategory = await ProductCategory.findOneAndDelete({ category_id: (req.params.categoryId).toUpperCase(), tenant_id: req.params.tenantId });
-        if(!productCategory){
+        if(productCategory == null){
             return res.status(404).send();
         }
         res.send(productCategory);

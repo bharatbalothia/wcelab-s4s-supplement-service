@@ -91,6 +91,55 @@ describe('Product Category API', () => {
     });
 
     /**
+     * Test the PUT Route
+     */
+    describe('PUT /s4s/{tenantId}/productcategories/:categoryId', () => {
+        it('should PUT the product category', (done) => {
+            var product_3 = {
+                "category_id": "AVG",
+                "category_description": "Person Protection Equipment AVG"
+            };
+
+            var modifiedProduct_3 = {
+                "category_id": "AVG",
+                "category_description": "Person Protection Equipment AVG 2"
+            };
+            chai.request(server)
+                .put('/s4s/t10001/productcategories/AVg')
+                .send(product_3)
+                .end((err, response) => {
+                    response.should.have.status(201);
+                    response.body.should.be.a('object');
+                    response.body.should.have.property('category_description', 'Person Protection Equipment AVG');
+
+                    chai.request(server)
+                    .get('/s4s/t10001/productcategories/AvG')
+                    .end((err, response) => {
+                        response.should.have.status(200);
+                        response.body.should.be.a('object');
+
+                        chai.request(server)
+                        .put('/s4s/t10001/productcategories/aVG')
+                        .send(modifiedProduct_3)
+                        .end((err, response) => {
+                            response.should.have.status(200);
+                            response.body.should.be.a('object');
+                            response.body.should.have.property('category_description', 'Person Protection Equipment AVG 2');
+
+                            chai.request(server)
+                                .get('/s4s/t10001/productcategories/avg')
+                                .end((err, response) => {
+                                    response.should.have.status(200);
+                                    response.body.should.have.property('category_description', 'Person Protection Equipment AVG 2');
+                                done();
+                            });
+                        });
+                    });
+            });
+        });
+    });
+
+    /**
      * Test the DELETE route
      */
     describe('DELETE /s4s/{tenantId}/productcategories/:categoryId', () => {
