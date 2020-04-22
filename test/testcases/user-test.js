@@ -199,5 +199,43 @@ describe('User API', () => {
 
     });
 
+    /**
+     * Test the connected suppliers route
+     */
+    describe('Test connected suppliers', () => {
+        it('should return connected suppliers of the user', (done) => {
+
+            var user = {
+                "username": "user@email.com",
+                "buyers": ["BAYLOR3"],
+                "sellers": ["seller1", "seller2"]
+            };
+            chai.request(server)
+                .put('/s4s/t10001/users/user@email.com')
+                .send(user)
+                .end((err, response) => {
+                    response.should.have.status(201);
+                    response.body.should.be.a('object');
+                    expect(response.body.buyers).to.have.lengthOf(1);
+                    expect(response.body.sellers).to.have.lengthOf(2);
+                    expect(response.body).to.not.contain.a.property('connected_sellers');
+
+                    chai.request(server)
+                    .get('/s4s/t10001/users/user@email.com')
+                    .end((err, response) => {
+                        response.should.have.status(200);
+                        response.body.should.be.a('object');
+                        expect(response.body.buyers).to.have.lengthOf(1);
+                        expect(response.body.sellers).to.have.lengthOf(2);
+                        expect(response.body).to.contain.a.property('connected_sellers');
+                        expect(response.body.connected_sellers).to.have.lengthOf(3);
+
+                    done();
+                    });
+                });
+        });
+
+    });
+
 });
 

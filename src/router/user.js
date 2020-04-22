@@ -28,24 +28,25 @@ router.get('/s4s/:tenantId/users/:id', auth, async (req, res) => {
     }
     const _id = req.params.id;
     try{
-        const user = await User.findOne({ username: _id, tenant_id: req.params.tenantId });
-        if(!user){
+        var user = await User.findOne({ username: _id, tenant_id: req.params.tenantId });
+        if(user == null){
             return res.status(404).send();
         }
+        var _user = JSON.parse(JSON.stringify(user));
         var sellerList = new Set();
         var i = 0;
         if(user.buyers.length > 0){
-            user['sellers'] = [];
+            _user['connected_sellers'] = [];
             for await (const buyer of Buyer.find({ buyer_id: { $in: user.buyers }, tenant_id: req.params.tenantId })) {
                 for(let seller of buyer.sellers){
                     sellerList.add(seller);
                 }
             }
             sellerList.forEach(seller => {
-                user['sellers'].push(seller);
+                _user['connected_sellers'].push(seller);
             });
         }
-        res.send(user);
+        res.send(_user);
     }catch(e){
         console.log(e);
         res.status(500).send(e);
