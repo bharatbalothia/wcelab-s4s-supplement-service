@@ -15,7 +15,7 @@ const buyerSchema = new mongoose.Schema({
             value: String
         }
     ],
-    sellers: [String]
+    suppliers: [String]
 });
 
 buyerSchema.index({ buyer_id: 1, tenant_id: 1 }, { unique: true });

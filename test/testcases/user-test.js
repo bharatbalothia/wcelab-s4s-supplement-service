@@ -31,7 +31,7 @@ describe('User API', () => {
             var user = {
                 "username": "marriottfrisco",
                 "buyers": ["buyer1", "buyer2"],
-                "sellers": ["seller1", "seller2"]
+                "suppliers": ["seller1", "seller2"]
             };
             chai.request(server)
                 .post('/s4s/t10001/users')
@@ -47,7 +47,7 @@ describe('User API', () => {
             var user = {
                 "username": "marriottdallas",
                 "buyers": ["buyer1", "buyer2"],
-                "sellers": ["seller1", "seller2"]
+                "suppliers": ["seller1", "seller2"]
             };;
             chai.request(server)
                 .post('/s4s/t10001/users')
@@ -63,7 +63,7 @@ describe('User API', () => {
             var user = {
                 "username": "marriottfrisco",
                 "buyers": ["buyer1", "buyer2"],
-                "sellers": ["seller1", "seller2"]
+                "suppliers": ["seller1", "seller2"]
             };
             chai.request(server)
                 .post('/s4s/t10001/users')
@@ -114,12 +114,12 @@ describe('User API', () => {
             var user = {
                 "username": "marriottirving",
                 "buyers": ["buyer1", "buyer2"],
-                "sellers": ["seller1", "seller2"]
+                "suppliers": ["seller1", "seller2"]
             };
             var modifiedUser = {
                 "username": "marriottirving",
                 "buyers": ["buyer1", "buyer2", "buyer3"],
-                "sellers": ["seller1", "seller3"]
+                "suppliers": ["seller1", "seller3"]
             };
             chai.request(server)
                 .post('/s4s/t10001/users')
@@ -165,7 +165,7 @@ describe('User API', () => {
             var user = {
                 "username": "marriottplano",
                 "buyers": ["buyer1", "buyer2"],
-                "sellers": ["seller1", "seller2"]
+                "suppliers": ["seller1", "seller2"]
             };
             chai.request(server)
                 .post('/s4s/t10001/users')
@@ -208,7 +208,7 @@ describe('User API', () => {
             var user = {
                 "username": "user@email.com",
                 "buyers": ["BAYLOR3"],
-                "sellers": ["seller1", "seller2"]
+                "suppliers": ["seller1", "seller2"]
             };
             chai.request(server)
                 .put('/s4s/t10001/users/user@email.com')
@@ -217,8 +217,8 @@ describe('User API', () => {
                     response.should.have.status(201);
                     response.body.should.be.a('object');
                     expect(response.body.buyers).to.have.lengthOf(1);
-                    expect(response.body.sellers).to.have.lengthOf(2);
-                    expect(response.body).to.not.contain.a.property('connected_sellers');
+                    expect(response.body.suppliers).to.have.lengthOf(2);
+                    expect(response.body).to.not.contain.a.property('connected_suppliers');
 
                     chai.request(server)
                     .get('/s4s/t10001/users/user@email.com')
@@ -226,9 +226,9 @@ describe('User API', () => {
                         response.should.have.status(200);
                         response.body.should.be.a('object');
                         expect(response.body.buyers).to.have.lengthOf(1);
-                        expect(response.body.sellers).to.have.lengthOf(2);
-                        expect(response.body).to.contain.a.property('connected_sellers');
-                        expect(response.body.connected_sellers).to.have.lengthOf(3);
+                        expect(response.body.suppliers).to.have.lengthOf(2);
+                        expect(response.body).to.contain.a.property('connected_suppliers');
+                        expect(response.body.connected_suppliers).to.have.lengthOf(3);
 
                     done();
                     });

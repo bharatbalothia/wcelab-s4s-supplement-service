@@ -65,7 +65,7 @@ describe('Buyer API', () => {
                 "contact_email" : "help@baylor.com",
                 "contact_person" : "Steve Mark",
                 "buyer_twitter" : "@baylorus",
-                "sellers": ["3M", "HONEYWELL", "CVS"]
+                "suppliers": ["3M", "HONEYWELL", "CVS"]
             };
             chai.request(server)
                 .post('/s4s/t10001/buyers')
@@ -115,7 +115,7 @@ describe('Buyer API', () => {
                 "contact_email" : "help@baylor.com",
                 "contact_person" : "Steve Mark",
                 "buyer_twitter" : "@baylorus",
-                "sellers": ["3M", "HONEYWELL", "CVS"]
+                "suppliers": ["3M", "HONEYWELL", "CVS"]
             };
             chai.request(server)
                 .post('/s4s/t10001/buyers')
@@ -165,7 +165,7 @@ describe('Buyer API', () => {
                 "contact_email" : "help@baylor.com",
                 "contact_person" : "Steve Mark",
                 "buyer_twitter" : "@baylorus",
-                "sellers": ["3M", "HONEYWELL", "CVS"]
+                "suppliers": ["3M", "HONEYWELL", "CVS"]
             };
             chai.request(server)
                 .post('/s4s/t10001/buyers')
@@ -250,7 +250,7 @@ describe('Buyer API', () => {
                 "contact_email" : "help@baylor.com",
                 "contact_person" : "Steve Mark",
                 "buyer_twitter" : "@baylorus",
-                "sellers": ["3M", "HONEYWELL", "CVS"]
+                "suppliers": ["3M", "HONEYWELL", "CVS"]
             };
             var modifiedBuyer = {
                 "buyer_id" : "BAYLOR3",
@@ -289,7 +289,7 @@ describe('Buyer API', () => {
                 "contact_email" : "help@baylor.com",
                 "contact_person" : "Steve Mark",
                 "buyer_twitter" : "@baylorus",
-                "sellers": ["3M", "HONEYWELL", "CVS"]
+                "suppliers": ["3M", "HONEYWELL", "CVS"]
             };
             chai.request(server)
                 .post('/s4s/t10001/buyers')
@@ -369,7 +369,7 @@ describe('Buyer API', () => {
                 "contact_email" : "help@baylor.com",
                 "contact_person" : "Steve Mark",
                 "buyer_twitter" : "@baylorus",
-                "sellers": ["3M", "HONEYWELL", "CVS"]
+                "suppliers": ["3M", "HONEYWELL", "CVS"]
             };
             chai.request(server)
                 .post('/s4s/t10001/buyers')
