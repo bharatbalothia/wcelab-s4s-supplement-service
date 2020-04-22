@@ -36,14 +36,14 @@ router.get('/s4s/:tenantId/users/:id', auth, async (req, res) => {
         var sellerList = new Set();
         var i = 0;
         if(user.buyers.length > 0){
-            _user['connected_sellers'] = [];
+            _user['connected_suppliers'] = [];
             for await (const buyer of Buyer.find({ buyer_id: { $in: user.buyers }, tenant_id: req.params.tenantId })) {
-                for(let seller of buyer.sellers){
+                for(let seller of buyer.suppliers){
                     sellerList.add(seller);
                 }
             }
             sellerList.forEach(seller => {
-                _user['connected_sellers'].push(seller);
+                _user['connected_suppliers'].push(seller);
             });
         }
         res.send(_user);
