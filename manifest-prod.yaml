@@ -1,0 +1,8 @@
+---
+applications:
+-   name: s4s-supplement-service-prod
+    routes:
+    -   route: https://s4s-supplement-service-prod.mybluemix.net/
+    memory: 1G
+    services:
+    -   DB4MongoDB-s4s-prd
