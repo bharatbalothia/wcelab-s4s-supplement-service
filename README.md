@@ -18,7 +18,7 @@ Services supplements IV to enable the functionality of S4S Supply View UI and po
 - MongoDB
 - Node.js
 
-## Build and Deployment process
+## Build and Deployment  process
 
 The continuous delivery process for build and deployment on dev is configured by a toolchain.
 
