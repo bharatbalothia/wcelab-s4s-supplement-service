@@ -254,11 +254,6 @@ paths:
         description: "Tenant ID of supplier to be updated"
         required: true
         type: "string"
-      - name: "supplier_id"
-        in: "path"
-        description: "ID of supplier to be updated"
-        required: true
-        type: "string"
       - in: "body"
         name: "body"
         description: "Object to update to"
@@ -952,11 +947,6 @@ paths:
       - name: "tenant_id"
         in: "path"
         description: "Tenant ID of tenant to be updated"
-        required: true
-        type: "string"
-      - name: "user_id"
-        in: "path"
-        description: "ID of user to be updated"
         required: true
         type: "string"
       - in: "body"
