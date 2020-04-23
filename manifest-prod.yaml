@@ -6,5 +6,5 @@ applications:
     memory: 1G
     services:
     -   DB4MongoDB-s4s-prd
-env:
-    APP_ENVIRONMENT: production
+    env:
+        APP_ENVIRONMENT: production
