@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
     res.send({
         "project": "S4S - Sterling 4 Scarce Supply Inventory Visibility",
         "release": "Phase 1",
-        "service": process.env.CF_APP,
+        "service": "s4s-supplement-service",
         "version": pjson.version,
         "environment": process.env.APP_ENVIRONMENT
     });
