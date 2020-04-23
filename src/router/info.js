@@ -1,14 +1,15 @@
 const express = require('express');
 const router = new express.Router();
+const pjson = require('../../package.json');
 
 //Test for REST Endpoint access
-router.get('/s4s/info', async (req, res) => {
+router.get('/', async (req, res) => {
     res.send({
         "project": "S4S - Sterling 4 Scarce Supply Inventory Visibility",
         "release": "Phase 1",
-        "service": "s4s-supplement-service",
-        "version": "1.27",
-        "environment": "development"
+        "service": process.env.CF_APP,
+        "version": pjson.version,
+        "environment": process.env.APP_ENVIRONMENT
     });
 });
 
