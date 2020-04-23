@@ -6,7 +6,7 @@ info:
   contact:
     email: "nobody@nowhere.com"
 host: "s4s-supplement-service-dev.mybluemix.net"
-basePath: "/s4s/v2"
+basePath: "/s4s"
 
 tags:
 - name: "Buyers"

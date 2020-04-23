@@ -1,6 +1,6 @@
 {
   "name": "s4s-supplement-service",
-  "version": "1.20.1",
+  "version": "1.20.2",
   "description": "Supplement backend service for Sterling For Scarce Supply Inventory Visibility (s4s)",
   "main": "src/app.js",
   "scripts": {
