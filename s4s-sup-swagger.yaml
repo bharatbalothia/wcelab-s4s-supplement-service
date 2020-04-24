@@ -1120,15 +1120,8 @@ definitions:
         items:
           type: "string"
           description: "supplierId"
-      contact_person:
-        type: "string"
-        description: "contact person of the buyer"
-      contact_email:
-        type: "string"
-        description: "contact email of the buyer"
-      contact_address:
-        type: "string"
-        description: "address of the buyer"
+      contact: 
+        $ref: "#/definitions/contact"
   
   supplier:
     type: "object"
@@ -1151,15 +1144,8 @@ definitions:
       supplier_twitter:
         type: "string"
         description: "twitter handel of the supplier"
-      contact_email:
-        type: "string"
-        description: "contact email of the supplier"
-      contact_person:
-        type: "string"
-        description: "contact person of the supplier"
-      contact_address:
-        type: "string"
-        description: "address of the supplier"
+      contact: 
+        $ref: "#/definitions/contact"
  
 
   product:
@@ -1246,6 +1232,41 @@ definitions:
         items:
           type: "string"
           description: "supplyCompanyId"
+  
+  contact:
+    type: "object"
+    properties:
+      contact_person:
+        type: "string"
+        description: "name of the contact"
+      address_line_1:
+        type: "string"
+        description: "address line 1"
+      address_line_2:
+        type: "string"
+        description: "address line 2"
+      address_line_3:
+        type: "string"
+        description: "address line 3"
+      city:
+        type: "string"
+        description: "name of the city"
+      state:
+        type: "string"
+        description: "name of the state"
+      zipcode:
+        type: "string"
+        description: "zipcode or postalcode"
+      country:
+        type: "string"
+        maxLength: 2
+        description: "name of the country in ISO-3166 standard"
+      phone_number:
+        type: "string"
+        description: "phone number"
+      email:
+        type: "string"
+        description: "email address"
 
 externalDocs:
   description: "Find out more about Swagger"
