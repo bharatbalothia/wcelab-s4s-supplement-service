@@ -2,15 +2,29 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const supplierSchema = new mongoose.Schema({
+    tenant_id: String,
     supplier_id: { type: String, uppercase: true, required: true },
+    enabled: Boolean,
     description: String,
     supplier_type: String,
-    tenant_id: String,
     supplier_mailslot_id: String,
     supplier_url: String,
+    supplier_twitter: String,
+    contact: {
+        name: string,
+        address_line_1: string,
+        address_line_2: string,
+        address_line_3: string,
+        city: string,
+        state: string,
+        zipcode: string,
+        country: { type: String, uppercase: true },
+        phone_number: string,
+        email: string
+    },
+    deprecated_elelements_after_this: Number,
     contact_person: String,
     contact_email: String,
-    supplier_twitter: String,
     address_attributes: [
         {
             name: String,
