@@ -38,6 +38,17 @@ module.exports = {
             _body = JSON.parse(JSON.stringify(body));
         }
         return { tenantInvalid: tenantInvalid, supplierInvalid: supplierInvalid, _body: _body };
+    },
+
+    getSupplier: async (tenantId, supplierId) => {
+        
+        const tenant = await Tenant.findOne({ tenant_id: tenantId });
+        const supplier = await Supplier.findOne({ tenant_id: tenantId, supplier_id: supplierId.toUpperCase() });
+        if (tenant, supplier) {
+            return supplier
+        } else {
+            return null
+        }
     }
 }
 
