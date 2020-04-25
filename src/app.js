@@ -12,6 +12,7 @@ const ivCredentialRouter = require('./router/iv-credential');
 const tenantRouter = require('./router/tenant');
 const userRouter = require('./router/user');
 const infoRouter = require('./router/info');
+const shipNodeSupplyRouter = require('./router/shipnode-supply');
 
 const app = express();
 const port = process.env.VCAP_APP_PORT || 3000;
@@ -28,6 +29,7 @@ app.use(tenantRouter);
 app.use(userRouter);
 app.use(ivCredentialRouter);
 app.use(infoRouter);
+app.use(shipNodeSupplyRouter);
 
 var server = app.listen(port, host, () => {
     console.log('Server is up on ' + host + ':' + port);

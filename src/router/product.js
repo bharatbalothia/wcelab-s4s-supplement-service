@@ -3,6 +3,9 @@ const Product = require('../model/product');
 const Tenant = require('../model/tenant');
 const auth = require('../middleware/auth');
 const dbUtil = require('../util/db-util');
+const ProductModule = require('./product-module');
+const { ResourceNotFoundError, InternalError } = require('../util/errors');
+
 const router = new express.Router();
 
 //Create a new item or product
@@ -58,19 +61,36 @@ router.post('/s4s/:tenantId/suppliers/products', auth, async (req, res) => {
 
 //Gets all products entitled for the supplier id
 router.get('/s4s/:tenantId/suppliers/:supplierId/products', auth, async (req, res) => {
-    var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
-    if(validationResponse.tenantInvalid){
-        return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
-    }
-    try{
-        const products = await Product.find({ supplier_id: req.params.supplierId, tenant_id: req.params.tenantId });
-        if(products == null){
-            return res.status(404).send();
+    
+    try {
+        
+        var products = await ProductModule.getSupplierProduct(    
+            req.params.tenantId, req.body, req.params.supplierId)
+        
+        res.send(products)
+
+    } catch (e) {
+        if (e instanceof ResourceNotFoundError){
+            res.status(404).send(e.message);
+        } else {
+            res.status(500).send(e.message);
         }
-        res.send(products);
-    }catch(e){
-        res.status(500).send();
     }
+
+
+    // var validationResponse = await dbUtil.validateTenant(req.params.tenantId, req.body);
+    // if(validationResponse.tenantInvalid){
+    //     return res.status(404).send({ message: "Tenant " + req.params.tenantId + " is not valid"});
+    // }
+    // try{
+    //     const products = await Product.find({ supplier_id: req.params.supplierId, tenant_id: req.params.tenantId });
+    //     if(products == null){
+    //         return res.status(404).send();
+    //     }
+    //     res.send(products);
+    // }catch(e){
+    //     res.status(500).send();
+    // }
 });
 
 //Gets a list of all the items
