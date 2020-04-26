@@ -33,10 +33,10 @@ docker run \
 
 # Start another mongo container to restore the ibmclouddb database
 
-    # --rm \
 
 docker run \
     -it \
+    --rm \
     --name ${NAME_CONTAINER_RESTORE} \
     -v ${PROJECT_DIR}:/s4s-supplment-service \
     --network s4s-supplement-dev \

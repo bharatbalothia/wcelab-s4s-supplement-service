@@ -5,4 +5,5 @@ module.exports = {
     IV_AUTH_TOKEN_BODY: 'grant_type=client_credentials',
     IV_AUTH_TOKEN_TTL_SAFETY_BUFFER: 30,
     IV_API_FAIL_TOKEN_RETRY_ATTEMPT: 3,
+    IV_STATUS_CODE_FOR_RETRY: [ 401, 403 ],
 }

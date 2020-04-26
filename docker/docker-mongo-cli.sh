@@ -17,4 +17,4 @@ docker run \
     -v ${PROJECT_DIR}:/s4s-supplment-service \
     --network s4s-supplement-dev \
     mongo \
-    /bin/bash
+    /bin/bash -c "echo '###### Welcome to s4s mongo cli ####### You probably want to start with mongo --host s4s-mongo' && /bin/bash"

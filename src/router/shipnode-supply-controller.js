@@ -35,6 +35,7 @@ module.exports = {
                 // console.log("getSupplierProduct result: ", JSON.stringify(products))
 
                 if (Array.isArray(products) && products.length) {
+
                     supplyList = await getSupplyForShipnodeItemList(supplier, shipnodeId, products)
 
                     return supplyList
@@ -76,7 +77,7 @@ async function getSupplyForShipnodeItemList(supplier, shipnodeId, itemList) {
             return supplyList
         })
         .catch(error => {
-            // console.log(error);
+            console.log(`logging error from shipnodeCompleteSupply promise.al ${error}`);
             throw (error)
         })
 
@@ -85,29 +86,52 @@ async function getSupplyForShipnodeItemList(supplier, shipnodeId, itemList) {
 
 async function getSupplyForShipnodeItem(supplier, shipnodeId, productItemId) {
 
-    ivCred = await IVCredentialModule.getIVCredential(supplier.tenant_id)
+    const ivOperation = "supplies"
 
-    token = await IVCredentialModule.getIVToken(ivCred.buyer_scbn_id, "supplies", supplier.supplier_mailslot_id, false)
-
-    bearerToken = token['bearer_token']
-    url = token['url']
-
-    // console.log(`use url ${url} with token of ${bearerToken}`);
-
-    const getSupplyHttpOption = HttpUtil.getIVHttpOptions(url, bearerToken, "GET",
+    const getSupplyForShipnodeItemPromise = await HttpUtil.getIVApiPromise(
+        supplier, ivOperation, 
+        "GET", 
         {
             shipNode: shipnodeId,
             itemId: productItemId,
             unitOfMeasure: "UNIT",
             productClass: "NEW"
-        },
+        }, 
         null)
+    
+    // getSupplyForShipnodeItemPromise is an IV request promise. You can use it like
+    // supplyList = await getSupplyForShipnodeItemPromise()
+    // or 
+    // getSupplyForShipnodeItemPromise.then( // do something )
 
-    return RequestPromise(getSupplyHttpOption).then(function (repos) {
-        // console.log('result from IV: ', repos);
-        return repos
-    })
-        .catch(function (err) {
-            throw err
-        });
+    return getSupplyForShipnodeItemPromise
 }
+
+// async function getSupplyForShipnodeItem(supplier, shipnodeId, productItemId) {
+
+//     ivCred = await IVCredentialModule.getIVCredential(supplier.tenant_id)
+
+//     token = await IVCredentialModule.getIVToken(ivCred.buyer_scbn_id, "supplies", supplier.supplier_mailslot_id, false)
+
+//     bearerToken = token['bearer_token']
+//     url = token['url']
+
+//     // console.log(`use url ${url} with token of ${bearerToken}`);
+
+//     const getSupplyHttpOption = HttpUtil.getIVHttpOptions(url, bearerToken, "GET",
+//         {
+//             shipNode: shipnodeId,
+//             itemId: productItemId,
+//             unitOfMeasure: "UNIT",
+//             productClass: "NEW"
+//         },
+//         null)
+
+//     return RequestPromise(getSupplyHttpOption).then(function (repos) {
+//         // console.log('result from IV: ', repos);
+//         return repos
+//     })
+//         .catch(function (err) {
+//             throw err
+//         });
+// }
