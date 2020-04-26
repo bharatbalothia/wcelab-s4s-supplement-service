@@ -1,5 +1,5 @@
 const Constants = require('./constants')
-const Promise = require('promise')
+// const Promise = require('promise')
 
 module.exports = {
 
