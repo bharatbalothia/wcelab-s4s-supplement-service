@@ -1,5 +1,6 @@
 const Tenant = require('../model/tenant');
 const Supplier = require('../model/supplier');
+const Product = require('../model/product');
 
 module.exports = {
     validateTenant: async (tenantId, body) => {
@@ -46,6 +47,17 @@ module.exports = {
         const supplier = await Supplier.findOne({ tenant_id: tenantId, supplier_id: supplierId.toUpperCase() });
         if (tenant, supplier) {
             return supplier
+        } else {
+            return null
+        }
+    },
+
+    getProductsForSupplier: async (tenantId, supplierId) => {
+        
+        const tenant = await Tenant.findOne({ tenant_id: tenantId });
+        const supplier = await Supplier.findOne({ tenant_id: tenantId, supplier_id: supplierId.toUpperCase() });
+        if (tenant, supplier) {
+            return await Product.find({ tenant_id: tenantId, supplier_id: supplierId.toUpperCase() });
         } else {
             return null
         }
