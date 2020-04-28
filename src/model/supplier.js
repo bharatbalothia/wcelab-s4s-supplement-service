@@ -7,6 +7,7 @@ const supplierSchema = new mongoose.Schema({
     enabled: Boolean,
     description: String,
     supplier_type: String,
+    inventory_feed_type: String, //NO_RESET, RESET_ONHAND, RESET_BOTH
     supplier_mailslot_id: String,
     supplier_url: String,
     supplier_twitter: String,

@@ -9,11 +9,10 @@ const RequestPromise = require('request-promise');
 
 module.exports = {
 
-    getSuppliesForShipnode: async (tenantIdInput, supplierIdInput, shipnodeIdInput) => {
+    getShipNodesForSupplier: async (tenantIdInput, supplierIdInput) => {
 
-        const tenantId = tenantIdInput.toLowerCase()
-        const supplierId = supplierIdInput.toUpperCase()
-        const shipnodeId = shipnodeIdInput.toUpperCase()
+        const tenantId = tenantIdInput.toLowerCase();
+        const supplierId = supplierIdInput.toUpperCase();
 
         var supplier = await dbUtil.getSupplier(tenantId, supplierId);
 

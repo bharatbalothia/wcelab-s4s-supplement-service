@@ -45,7 +45,7 @@ module.exports = {
         }
 
         if (cacheTokenInvalid) {
-            // console.log("cacheTokenInvalid: " + cacheTokenInvalid);
+            console.log("cacheTokenInvalid: " + cacheTokenInvalid);
             //Find the iv-credential record for the buyer_scbn_id
             ivCredential = await IVCredential.findOne({ buyer_scbn_id: buyerSCBNId });
             // console.log("ivCredential: " + ivCredential);
@@ -55,7 +55,7 @@ module.exports = {
                 throw new ResourceNotFoundError("SCBN buyer: " + buyerSCBNId, " SCBN buyer cannot be found. The buyer first needs to be onboarded in s4s-supplement-service.")
             }
             //Make the API call to fetch the new token from IV token service
-            console.log("Fetching new token from IV for " + buyerSCBNId);
+            // console.log("Fetching new token from IV for " + buyerSCBNId);
             var ivAuthTokenResponse = await httpRequest(getIVHTTPOptions(ivCredential));
             bearerToken = ivAuthTokenResponse.access_token;
             // console.log("ivAuthTokenResponse: " + JSON.stringify(ivAuthTokenResponse));
@@ -86,12 +86,14 @@ module.exports = {
         jsonResponse['bearer_token'] = bearerToken;
         jsonResponse['time_to_live'] = ivTTLRemaining;
 
-        return jsonResponse
+        console.log('jsonResponse: ' + JSON.stringify(jsonResponse));
+
+        return jsonResponse;
     },
 
     getIVCredential: async(ivTenantId) => {
         return await IVCredential.findOne({iv_tenant_id: ivTenantId})
-    },
+    }
 }
 
 function getIVHTTPOptions (ivCredential) {
