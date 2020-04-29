@@ -32,6 +32,7 @@ docker run \
     node \
     /bin/bash -c "cd /s4s-supplment-service && \
     npm install && \
+    npm install -g nodemon && \
     export VCAP_APP_HOST=${NODE_HOST} && \
     export VCAP_APP_PORT=${PORT_DOCKER} && \
     export DB_ENVIRONMENT=DEV && \
@@ -39,4 +40,4 @@ docker run \
     export MONGODB_PORT=27017 && \
     export MONGODB_DBNAME=ibmclouddb && \
     export MONGODB_TEST_DBNAME=ibmclouddb && \
-    npm start"
+    npm run start-dev"

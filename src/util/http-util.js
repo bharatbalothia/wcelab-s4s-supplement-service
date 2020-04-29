@@ -82,7 +82,7 @@ function getIVHttpOptions(urlPath, bearerToken, httpMethod, requestParameters, j
         body: httpMethod == "GET" ? null : jsonInput
     };
 
-    console.log(`option is: ${JSON.stringify(options)}`);
+    // console.log(`option is: ${JSON.stringify(options)}`);
     
     return options;
 }
