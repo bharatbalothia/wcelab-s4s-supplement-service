@@ -86,7 +86,7 @@ module.exports = {
         jsonResponse['bearer_token'] = bearerToken;
         jsonResponse['time_to_live'] = ivTTLRemaining;
 
-        console.log('jsonResponse: ' + JSON.stringify(jsonResponse));
+        // console.log('jsonResponse: ' + JSON.stringify(jsonResponse));
 
         return jsonResponse;
     },

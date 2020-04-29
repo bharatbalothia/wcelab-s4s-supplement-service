@@ -9,7 +9,7 @@ const RequestPromise = require('request-promise');
 
 module.exports = {
 
-    getSuppliesForShipnode: async (tenantIdInput, supplierIdInput, shipnodeIdInput) => {
+    getSuppliesForShipnode: async (tenantIdInput, supplierIdInput, shipnodeIdInput, productList = undefined) => {
 
         const tenantId = tenantIdInput.toLowerCase()
         const supplierId = supplierIdInput.toUpperCase()
@@ -28,15 +28,18 @@ module.exports = {
             );
 
             if (shipnode) {
-                console.log('getting items for: ', tenantId, ",", supplierId)
 
-                var products = await ProductModule.getSupplierProduct(tenantId, {}, supplierId)
+                if (! productList) {
+                    
+                    console.log('getting items for: ', tenantId, ",", supplierId)
+                    productList = await ProductModule.getSupplierProduct(tenantId, {}, supplierId)
 
-                console.log("getSupplierProduct result: ", JSON.stringify(products))
+                }
+                // console.log("getSupplierProduct result: ", JSON.stringify(products))
 
-                if (Array.isArray(products) && products.length) {
+                if (Array.isArray(productList) && productList.length) {
 
-                    supplyList = await getSupplyForShipnodeItemList(supplier, shipnodeId, products)
+                    supplyList = await getSupplyForShipnodeItemList(supplier, shipnodeId, productList)
 
                     return supplyList
                 }
