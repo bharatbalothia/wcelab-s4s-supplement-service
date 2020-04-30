@@ -2,6 +2,8 @@ const Client = require('../model/client');
 
 const auth = async (req, res, next) => {
 
+    return next();//TODO Temporarily disabled auth middleware
+
     if(process.env.DB_ENVIRONMENT == "TEST"){
         return next();
     }

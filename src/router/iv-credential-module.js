@@ -6,6 +6,7 @@ const Constants = require('../util/constants');
 const Base64Util = require('../util/base64-util');
 const DateTimeUtil = require('../util/datetime-util');
 const Supplier = require('../model/supplier');
+const Client = require('../model/client');
 
 module.exports = {
 
@@ -74,7 +75,6 @@ module.exports = {
 
         //Return the json response
         var jsonResponse = {};
-        jsonResponse['url'] = Constants.IV_API_BASE_URL.replace('{tenantId}', ivTenantId).replace('{operation}', operation);
         jsonResponse['buyer_scbn_id'] = buyerSCBNId;
         if (supplier) {
             jsonResponse['supplier_id'] = supplier.supplier_id;
@@ -85,7 +85,15 @@ module.exports = {
         jsonResponse['iv_tenant_id'] = ivTenantId;
         jsonResponse['bearer_token'] = bearerToken;
         jsonResponse['time_to_live'] = ivTTLRemaining;
-
+        jsonResponse['url'] = getURL(ivTenantId, operation, supplier.supplier_id);
+        jsonResponse['http_method'] = getHTTPMethod(operation);
+        try {
+            jsonResponse['auth_header'] = await getAuthHeader();
+        } catch (error) {
+            if (e instanceof ResourceNotFoundError){
+                throw new ResourceNotFoundError(`client_name: APP_CONNECT`, 'Cannot find s4s credentials for the specified client.')
+            }
+        }
         // console.log('jsonResponse: ' + JSON.stringify(jsonResponse));
 
         return jsonResponse;
@@ -149,4 +157,36 @@ function updateTokenAndExpirationDateInCache(buyerSCBNId, ivCredential) {
 
 function getTTLFromIVResponse(ivAuthTokenResponse){
     return ivAuthTokenResponse.expires_in - Constants.IV_AUTH_TOKEN_TTL_SAFETY_BUFFER;
+}
+
+function getURL (ivTenantId, operation, supplierId) {
+    var env;
+    if(process.env.APP_ENVIRONMENT === 'production'){
+        env = 'prod';
+    }else{
+        env = 'dev';
+    }
+    var baseURL = Constants.S4S_BASE_URL.replace('{env}', env);
+    baseURL += '/s4s/' + ivTenantId + '/suppliers/' + supplierId + '/' + operation;
+    return baseURL;
+}
+
+function getHTTPMethod(operation) {
+    var httpMethod;
+    switch(operation){
+        case 'supplies':
+            httpMethod = 'PUT';
+            break;
+        default:
+            httpMethod = 'GET';
+    }
+    return httpMethod;
+}
+
+async function getAuthHeader() {
+    const client = await Client.findOne({ client_name: 'APP_CONNECT', client_type: 'SYSTEM' });
+    if(client == null){
+        throw new ResourceNotFoundError(`client_name: APP_CONNECT`, 'Cannot find s4s credentials for the specified client.')
+    }
+    return getAuthorizationBearerToken(client.client_id, client.client_secret);
 }

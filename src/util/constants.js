@@ -6,4 +6,5 @@ module.exports = {
     IV_AUTH_TOKEN_TTL_SAFETY_BUFFER: 30,
     IV_API_FAIL_TOKEN_RETRY_ATTEMPT: 3,
     IV_STATUS_CODE_FOR_RETRY: [ 401, 403 ],
+    S4S_BASE_URL: 'https://s4s-supplement-service-{env}.mybluemix.net'
 }
