@@ -85,15 +85,15 @@ module.exports = {
         jsonResponse['iv_tenant_id'] = ivTenantId;
         jsonResponse['bearer_token'] = bearerToken;
         jsonResponse['time_to_live'] = ivTTLRemaining;
-        jsonResponse['url'] = getURL(ivTenantId, operation, supplier.supplier_id);
+        jsonResponse['url'] = Constants.IV_API_BASE_URL.replace('{tenantId}', ivTenantId).replace('{operation}', operation);
         jsonResponse['http_method'] = getHTTPMethod(operation);
-        try {
-            jsonResponse['auth_header'] = await getAuthHeader();
-        } catch (error) {
-            if (e instanceof ResourceNotFoundError){
-                throw new ResourceNotFoundError(`client_name: APP_CONNECT`, 'Cannot find s4s credentials for the specified client.')
-            }
-        }
+        // try {
+        //     jsonResponse['auth_header'] = await getAuthHeader();
+        // } catch (error) {
+        //     if (e instanceof ResourceNotFoundError){
+        //         throw new ResourceNotFoundError(`client_name: APP_CONNECT`, 'Cannot find s4s credentials for the specified client.')
+        //     }
+        // }
         // console.log('jsonResponse: ' + JSON.stringify(jsonResponse));
 
         return jsonResponse;
@@ -159,7 +159,7 @@ function getTTLFromIVResponse(ivAuthTokenResponse){
     return ivAuthTokenResponse.expires_in - Constants.IV_AUTH_TOKEN_TTL_SAFETY_BUFFER;
 }
 
-function getURL (ivTenantId, operation, supplierId) {
+function getS4SURL (ivTenantId, operation, supplierId) {
     var env;
     if(process.env.APP_ENVIRONMENT === 'production'){
         env = 'prod';
