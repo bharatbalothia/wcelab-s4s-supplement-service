@@ -532,6 +532,11 @@ produces:
   - application/json
 securityDefinitions: {}
 security: []
+
+# Configuration for IBM API Connect. This creates the "API" definition in API Gateway.
+# This uses Datapower gateway's proxy service and proxy to s4s supplement service
+# Update the username and password with s4s sup service's client_id and client_secret
+
 x-ibm-configuration:
   enforced: true
   testable: true
