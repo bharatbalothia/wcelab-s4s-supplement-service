@@ -93,6 +93,25 @@ router.delete('/s4s/:tenantId/users/:id', auth, async (req, res) => {
     }
 });
 
+//Gets a user's connected supplier
+router.get('/s4s/:tenantId/users/:userId/connected_suppliers', auth, async (req, res) => {
+    
+    try{
+        
+        connectSupplierList = await UserModule.getUserConnectedSupplierList(req.params.tenantId, req.params.userId)
+
+        if (connectSupplierList) {
+            return res.send(connectSupplierList);
+        } else {
+            return res.status(404).send();
+        }
+        
+    }catch(e){
+        console.log(e);
+        return res.status(500).send(e);
+    };
+});
+
 
 //Gets a user's connected supplier product
 router.get('/s4s/:tenantId/users/:userId/connected_supplier_products', auth, async (req, res) => {
