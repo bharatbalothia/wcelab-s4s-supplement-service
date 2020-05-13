@@ -3,6 +3,7 @@ const User = require('../model/user');
 const Buyer = require('../model/buyer');
 const auth = require('../middleware/auth');
 const dbUtil = require('../util/db-util');
+const UserModule = require('./user-module')
 const router = new express.Router();
 
 //Create a new user
@@ -28,29 +29,32 @@ router.get('/s4s/:tenantId/users/:id', auth, async (req, res) => {
     }
     const _id = req.params.id;
     try{
-        var user = await User.findOne({ username: _id, tenant_id: req.params.tenantId });
-        if(user == null){
-            return res.status(404).send();
-        }
-        var _user = JSON.parse(JSON.stringify(user));
-        var sellerList = new Set();
-        var i = 0;
-        if(user.buyers.length > 0){
-            _user['connected_suppliers'] = [];
-            for await (const buyer of Buyer.find({ buyer_id: { $in: user.buyers }, tenant_id: req.params.tenantId })) {
-                for(let seller of buyer.suppliers){
-                    sellerList.add(seller);
-                }
-            }
-            sellerList.forEach(seller => {
-                _user['connected_suppliers'].push(seller);
-            });
-        }
-        res.send(_user);
+
+        user = await UserModule.getUserByUserId(req.params.tenantId, _id)
+
+        // var user = await User.findOne({ username: _id, tenant_id: req.params.tenantId });
+        // if(user == null){
+        //     return res.status(404).send();
+        // }
+        // var _user = JSON.parse(JSON.stringify(user));
+        // var sellerList = new Set();
+        // var i = 0;
+        // if(user.buyers.length > 0){
+        //     _user['connected_suppliers'] = [];
+        //     for await (const buyer of Buyer.find({ buyer_id: { $in: user.buyers }, tenant_id: req.params.tenantId })) {
+        //         for(let seller of buyer.suppliers){
+        //             sellerList.add(seller);
+        //         }
+        //     }
+        //     sellerList.forEach(seller => {
+        //         _user['connected_suppliers'].push(seller);
+        //     });
+        // }
+        res.send(user);
     }catch(e){
         console.log(e);
         res.status(500).send(e);
-    };
+    }; 
 });
 
 //Modifies a user
@@ -88,5 +92,44 @@ router.delete('/s4s/:tenantId/users/:id', auth, async (req, res) => {
         res.status(500).send();
     }
 });
+
+
+//Gets a user's connected supplier product
+router.get('/s4s/:tenantId/users/:userId/connected_supplier_products', auth, async (req, res) => {
+    
+    try{
+        connectedSupplierProductList = await UserModule.getUserConnectedProductList(req.params.tenantId, req.params.userId)
+
+        if(connectedSupplierProductList == null){
+            return res.status(404).send();
+        } else {
+            res.send(connectedSupplierProductList);
+        }
+        
+    }catch(e){
+        console.log(e);
+        res.status(500).send(e);
+    };
+});
+
+
+//Gets a user's own supplier product
+router.get('/s4s/:tenantId/users/:userId/supplier_products', auth, async (req, res) => {
+    
+    try{
+        supplierProductList = await UserModule.getUserSupplierProductList(req.params.tenantId, req.params.userId)
+
+        if(supplierProductList == null){
+            return res.status(404).send();
+        } else {
+            res.send(supplierProductList);
+        }
+        
+    }catch(e){
+        console.log(e);
+        res.status(500).send(e);
+    };
+});
+
 
 module.exports = router;

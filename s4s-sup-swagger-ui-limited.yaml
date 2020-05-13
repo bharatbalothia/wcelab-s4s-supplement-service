@@ -1,0 +1,623 @@
+swagger: '2.0'
+info:
+  description: 'S4S Microservice provides supplemental information to SCBN, APP Connect, BUC, and IV'
+  version: 1.22.1
+  title: S4S Supplemental Service - Rapid UI
+  x-ibm-name: s4s-supplemental-service---rapid-ui
+basePath: /s4s
+tags:
+  - name: Info
+    description: Information about the service
+  - name: Buyers
+    description: Companies that are buyers in the system. The buyer company establishes relationships with supplier companies. Any user within a buyer company have visibility to same set of suppliers.
+  - name: Suppliers
+    description: Companies that are suppliers in the system. The supplier company establishes relationships with buyer companies. Any user within a supplier company provides information to all connected buyers
+  - name: Product Categories
+    description: Product Categories are the high level categories of products this system tracks.
+  - name: Products
+    description: Product and items that are tracked in this system. Each supplier define its products and relate them to a category of high level items that are tracked in the system.
+  - name: Ship Nodes
+    description: "Ship nodes are suppliers' manufacture plants, warehouses, distribution centers, and stores where inventories are."
+  - name: Users
+    description: Users of the system. A user belongs to a supplier company or a buyer company. There is the possibility that a user could belong to multiple companies.
+schemes:
+  - https
+paths:
+  /:
+    get:
+      tags:
+        - Info
+      summary: get API info
+      description: Get information of the API
+      operationId: info-get
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/info'
+        '400':
+          description: record does not exist
+        '500':
+          description: process exception
+  '/{tenant_id}/buyers/{buyer_id}':
+    get:
+      tags:
+        - Buyers
+      summary: get a buyer
+      description: Get a buyer by id
+      operationId: buyer-get
+      produces:
+        - application/json
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID of buyer to retrieve
+          required: true
+          type: string
+        - name: buyer_id
+          in: path
+          description: ID of buyer to retrieve
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/buyer'
+        '400':
+          description: record does not exist
+        '500':
+          description: process exception
+  '/{tenant_id}/suppliers/{supplier_id}':
+    get:
+      tags:
+        - Suppliers
+      summary: get a supplier
+      description: Get a supplier by id
+      operationId: supplier-get
+      produces:
+        - application/json
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID of supplier to retrieve
+          required: true
+          type: string
+        - name: supplier_id
+          in: path
+          description: ID of supplier to retrieve
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/supplier'
+        '400':
+          description: record does not exist
+        '500':
+          description: process exception
+  '/{tenant_id}/suppliers/{supplier_id}/products':
+    get:
+      tags:
+        - Suppliers
+      summary: "list a supplier's product"
+      description: Get a complete list of products of a supplier
+      operationId: supplier-product-get
+      produces:
+        - application/json
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID of supplier to retrieve
+          required: true
+          type: string
+        - name: supplier_id
+          in: path
+          description: ID of supplier to retrieve
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/product'
+        '400':
+          description: record does not exist
+        '500':
+          description: process exception
+  '/{tenant_id}/products/{product_id}':
+    get:
+      tags:
+        - Products
+      summary: get a product
+      description: Get a product by id
+      operationId: product-get
+      produces:
+        - application/json
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID of product to retrieve
+          required: true
+          type: string
+        - name: product_id
+          in: path
+          description: ID of product to retrieve
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/product'
+        '400':
+          description: record does not exist
+        '500':
+          description: process exception
+  '/{tenant_id}/productcategories':
+    get:
+      tags:
+        - Product Categories
+      summary: list product categories
+      description: Get the complete list of product categories
+      operationId: productcategories-get
+      produces:
+        - application/json
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID of the tenant
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/productcategory4get'
+        '500':
+          description: Invalid status value
+  '/{tenant_id}/productcategories/{productcategory_id}':
+    get:
+      tags:
+        - Product Categories
+      summary: get a product category
+      description: Get a product category by id
+      operationId: productcategory-get
+      produces:
+        - application/json
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID of product category to retrieve
+          required: true
+          type: string
+        - name: productcategory_id
+          in: path
+          description: ID of product category to retrieve
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/productcategory4get'
+        '400':
+          description: record does not exist
+        '500':
+          description: process exception
+  '/{tenant_id}/productcategories/{productcategory_id}/products':
+    get:
+      tags:
+        - Product Categories
+      summary: list products in a category
+      description: Get complete list of products in a category
+      operationId: productcategory-product-get
+      produces:
+        - application/json
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID of product category from which the products to be retrieved
+          required: true
+          type: string
+        - name: productcategory_id
+          in: path
+          description: ID of product category from which the products to be retrieved
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/product'
+        '400':
+          description: record does not exist
+        '500':
+          description: process exception
+  '/{tenant_id}/shipnodes':
+    get:
+      tags:
+        - Ship Nodes
+      summary: list shipnodes
+      description: Get the complete list of shipnodes
+      operationId: shipnodes-get
+      produces:
+        - application/json
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID of the tenant
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/shipnode'
+        '500':
+          description: Invalid status value
+  '/{tenant_id}/suppliers/{supplier_id}/shipnodes':
+    get:
+      tags:
+        - Suppliers
+      summary: "list a supplier's shipnodes"
+      description: Get the complete list of shipnodes of a supplier
+      operationId: supplier-shipnodes-get
+      produces:
+        - application/json
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID of the tenant
+          required: true
+          type: string
+        - name: supplier_id
+          in: path
+          description: ID of the supplier
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/shipnode'
+        '500':
+          description: Invalid status value
+  '/{tenant_id}/shipnodes/{shipnode_id}':
+    get:
+      tags:
+        - Ship Nodes
+      summary: get a shipnode
+      description: Get a shipnode by id
+      operationId: shipnode-get
+      produces:
+        - application/json
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID of shipnode to retrieve
+          required: true
+          type: string
+        - name: shipnode_id
+          in: path
+          description: ID of shipnode to retrieve
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/shipnode'
+        '400':
+          description: record does not exist
+        '500':
+          description: process exception
+  '/{tenant_id}/users/{user_id}':
+    get:
+      tags:
+        - Users
+      summary: get a user
+      description: Get a user by id
+      operationId: user-get
+      produces:
+        - application/json
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID of user to retrieve
+          required: true
+          type: string
+        - name: user_id
+          in: path
+          description: ID of user to retrieve
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/user'
+        '400':
+          description: record does not exist
+        '500':
+          description: process exception
+
+  '/{tenant_id}/users/{user_id}/connected_supplier_products':
+    get:
+      tags:
+        - Users
+      summary: get a user connected supplier products
+      description: Get a user's connected suppliers' products. The products that an user can buy.
+      operationId: user-get-connected-supplier-products
+      produces:
+        - application/json
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID of user to retrieve
+          required: true
+          type: string
+        - name: user_id
+          in: path
+          description: ID of user to retrieve
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/product'
+        '400':
+          description: record does not exist
+        '500':
+          description: process exception
+  '/{tenant_id}/users/{user_id}/supplier_products':
+    get:
+      tags:
+        - Users
+      summary: get a user supplier products
+      description: Get a user's suppliers' products. The products that an user can supply.
+      operationId: user-get-supplier-products
+      produces:
+        - application/json
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID of user to retrieve
+          required: true
+          type: string
+        - name: user_id
+          in: path
+          description: ID of user to retrieve
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/product'
+        '400':
+          description: record does not exist
+        '500':
+          description: process exception
+                              
+definitions:
+  buyer:
+    type: object
+    properties:
+      buyer_id:
+        type: string
+        description: id of the buyer
+      description:
+        type: string
+        description: description of the buyer
+      buyer_type:
+        type: string
+        description: type of the buyer
+      buyer_url:
+        type: string
+        description: url of the buyer
+      buyer_geocode:
+        type: object
+        properties:
+          latitude:
+            type: string
+          longitude:
+            type: string
+      buyer_twitter:
+        type: string
+        description: twitter handel of the buyer
+      suppliers:
+        type: array
+        items:
+          type: string
+          description: supplierId
+      contact:
+        $ref: '#/definitions/contact'
+  supplier:
+    type: object
+    properties:
+      supplier_id:
+        type: string
+        description: id of the supplier
+      description:
+        type: string
+        description: description of the supplier
+      supplier_type:
+        type: string
+        description: type of the supplier
+      supplier_mailslot_id:
+        type: string
+        description: SCBN mailslot of the supplier
+      supplier_url:
+        type: string
+        description: url of the supplier
+      supplier_twitter:
+        type: string
+        description: twitter handel of the supplier
+      contact:
+        $ref: '#/definitions/contact'
+  product:
+    type: object
+    properties:
+      item_id:
+        type: string
+        description: id of the product
+      description:
+        type: string
+        description: description of the product
+      category:
+        type: string
+        description: category of the product
+      unit_of_measure:
+        type: string
+        description: unit of measure of the product
+      image_url:
+        type: string
+        description: url of the product image
+  productcategory4get:
+    type: object
+    properties:
+      category_id:
+        type: string
+        description: id of the product category
+      category_description:
+        type: string
+        description: description of the product category
+      display_products:
+        type: array
+        items:
+          type: string
+          description: productId
+  shipnode:
+    type: object
+    properties:
+      supplier_id:
+        type: string
+        description: id of the supplier of the shipnode
+      shipnode_id:
+        type: string
+        description: id of the shipnode
+      shipnode_name:
+        type: string
+        description: name of the shipnode
+      latitude:
+        type: string
+        description: latitude the shipnode
+      longitude:
+        type: string
+        description: longitude of the shipnode
+  user:
+    type: object
+    properties:
+      user_name:
+        type: string
+        description: name of the user. This the user identifier for all operations.
+      tenant_id:
+        type: string
+        description: "the tenant that user is in. It must be the same as the requesting system's tenant."
+      buyers:
+        type: array
+        items:
+          type: string
+          description: buyerCompanyId
+      suppliers:
+        type: array
+        items:
+          type: string
+          description: supplyCompanyId
+  contact:
+    type: object
+    properties:
+      name:
+        type: string
+        description: name of the contact
+      address_line_1:
+        type: string
+        description: address line 1
+      address_line_2:
+        type: string
+        description: address line 2
+      address_line_3:
+        type: string
+        description: address line 3
+      city:
+        type: string
+        description: name of the city
+      state:
+        type: string
+        description: name of the state
+      zipcode:
+        type: string
+        description: zipcode or postalcode
+      country:
+        type: string
+        maxLength: 2
+        description: country code in ISO-3166 standard
+      phone_number:
+        type: string
+        description: phone number
+      email:
+        type: string
+        description: email address
+  info:
+    type: object
+    properties:
+      project:
+        type: string
+      release:
+        type: string
+      service:
+        type: string
+      version:
+        type: string
+      environment:
+        type: string
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions: {}
+security: []
+
+# Configuration for IBM API Connect. This creates the "API" definition in API Gateway.
+# This uses Datapower gateway's proxy service and proxy to s4s supplement service
+# Update the username and password with s4s sup service's client_id and client_secret
+
+x-ibm-configuration:
+  enforced: true
+  testable: true
+  phase: realized
+  cors:
+    enabled: true
+  assembly:
+    execute:
+      - proxy:
+          title: proxy
+          timeout: 60
+          verb: keep
+          cache-response: protocol
+          version: 1.0.0
+          description: S4S Supplement Service Production Service
+          target-url: 'https://s4s-supplement-service-prod.mybluemix.net$(request.path)'
+          cache-ttl: 30
+          username: '***** S4S client id *************'
+          password: '***** S4S client secret *********'
+    catch: []

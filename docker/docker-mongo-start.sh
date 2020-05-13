@@ -41,4 +41,4 @@ docker run \
     -v ${PROJECT_DIR}:/s4s-supplment-service \
     --network s4s-supplement-dev \
     mongo \
-    /bin/sh -c "mongorestore --host s4s-mongo /s4s-supplment-service/db_backup/rapid_dev_test_demo_backup_2020_04_24"
+    /bin/sh -c "mongorestore --host s4s-mongo /s4s-supplment-service/db_backup/rapid_dev_test_demo_2020_05_12_0206"
