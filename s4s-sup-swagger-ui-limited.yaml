@@ -354,6 +354,70 @@ paths:
           description: record does not exist
         '500':
           description: process exception
+
+  '/{tenant_id}/users/{user_id}/connected_supplier_products':
+    get:
+      tags:
+        - Users
+      summary: get a user connected supplier products
+      description: Get a user's connected suppliers' products. The products that an user can buy.
+      operationId: user-get-connected-supplier-products
+      produces:
+        - application/json
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID of user to retrieve
+          required: true
+          type: string
+        - name: user_id
+          in: path
+          description: ID of user to retrieve
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/product'
+        '400':
+          description: record does not exist
+        '500':
+          description: process exception
+  '/{tenant_id}/users/{user_id}/supplier_products':
+    get:
+      tags:
+        - Users
+      summary: get a user supplier products
+      description: Get a user's suppliers' products. The products that an user can supply.
+      operationId: user-get-supplier-products
+      produces:
+        - application/json
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID of user to retrieve
+          required: true
+          type: string
+        - name: user_id
+          in: path
+          description: ID of user to retrieve
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/product'
+        '400':
+          description: record does not exist
+        '500':
+          description: process exception
+                              
 definitions:
   buyer:
     type: object
