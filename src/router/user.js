@@ -98,12 +98,12 @@ router.delete('/s4s/:tenantId/users/:id', auth, async (req, res) => {
 router.get('/s4s/:tenantId/users/:userId/connected_supplier_products', auth, async (req, res) => {
     
     try{
-        user = await UserModule.getUserConnectedProductList(req.params.tenantId, req.params.userId)
+        connectedSupplierProductList = await UserModule.getUserConnectedProductList(req.params.tenantId, req.params.userId)
 
-        if(user == null){
+        if(connectedSupplierProductList == null){
             return res.status(404).send();
         } else {
-            res.send(user);
+            res.send(connectedSupplierProductList);
         }
         
     }catch(e){
@@ -113,16 +113,16 @@ router.get('/s4s/:tenantId/users/:userId/connected_supplier_products', auth, asy
 });
 
 
-//Gets a user's connected supplier product
+//Gets a user's own supplier product
 router.get('/s4s/:tenantId/users/:userId/supplier_products', auth, async (req, res) => {
     
     try{
-        user = await UserModule.getUserSupplierProductList(req.params.tenantId, req.params.userId)
+        supplierProductList = await UserModule.getUserSupplierProductList(req.params.tenantId, req.params.userId)
 
-        if(user == null){
+        if(supplierProductList == null){
             return res.status(404).send();
         } else {
-            res.send(user);
+            res.send(supplierProductList);
         }
         
     }catch(e){
