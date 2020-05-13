@@ -243,30 +243,30 @@ paths:
           description: record does not exist
         '500':
           description: process exception
-  '/{tenant_id}/shipnodes':
-    get:
-      tags:
-        - Ship Nodes
-      summary: list shipnodes
-      description: Get the complete list of shipnodes
-      operationId: shipnodes-get
-      produces:
-        - application/json
-      parameters:
-        - name: tenant_id
-          in: path
-          description: Tenant ID of the tenant
-          required: true
-          type: string
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/shipnode'
-        '500':
-          description: Invalid status value
+  # '/{tenant_id}/shipnodes':
+  #   get:
+  #     tags:
+  #       - Ship Nodes
+  #     summary: list shipnodes
+  #     description: Get the complete list of shipnodes
+  #     operationId: shipnodes-get
+  #     produces:
+  #       - application/json
+  #     parameters:
+  #       - name: tenant_id
+  #         in: path
+  #         description: Tenant ID of the tenant
+  #         required: true
+  #         type: string
+  #     responses:
+  #       '200':
+  #         description: successful operation
+  #         schema:
+  #           type: array
+  #           items:
+  #             $ref: '#/definitions/shipnode'
+  #       '500':
+  #         description: Invalid status value
   '/{tenant_id}/suppliers/{supplier_id}/shipnodes':
     get:
       tags:
@@ -350,6 +350,39 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/user'
+        '400':
+          description: record does not exist
+        '500':
+          description: process exception
+
+
+  '/{tenant_id}/users/{user_id}/connected_suppliers':
+    get:
+      tags:
+        - Users
+      summary: get a user connected suppliers
+      description: Get a user's connected suppliers and their contact information. 
+      operationId: user-get-connected-suppliers
+      produces:
+        - application/json
+      parameters:
+        - name: tenant_id
+          in: path
+          description: Tenant ID of user to retrieve
+          required: true
+          type: string
+        - name: user_id
+          in: path
+          description: ID of user to retrieve
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/supplier'
         '400':
           description: record does not exist
         '500':

@@ -2,6 +2,7 @@
 const User = require('../model/user');
 const Buyer = require('../model/buyer');
 const ProductModule = require('./product-module')
+const SupplierModule = require('./supplier-module')
 const { ResourceNotFoundError, InternalError } = require('../util/errors');
 
 
@@ -44,13 +45,28 @@ module.exports = {
             console.log(`[getUserSupplierProductList] user ${userId} can see the products:  ${JSON.stringify(ownProductList)}`);
 
             return ownProductList
-
-            // console.log(`get user with connected supplier products: ${JSON.stringify(user)}`);
             
         } else {
             return undefined
         }
-    }
+    },
+
+    getUserConnectedSupplierList: async (tenantId, userId) => {
+
+        user = await getUserDetail(tenantId, userId)
+
+        if (user && user.connected_suppliers && user.connected_suppliers.length) {
+            
+            const supplierList = await SupplierModule.getListOfSupplier(tenantId, user.connected_suppliers)
+            
+            console.log(`[getUserConnectedSupplierList] user ${userId} has following connected suppliers:  ${JSON.stringify(supplierList)}`);
+
+            return supplierList
+            
+        } else {
+            return undefined
+        }
+    },
 }
 
 
