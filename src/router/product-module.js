@@ -29,5 +29,10 @@ module.exports = {
 
             return products
         }
-    }
+    },
+
+    getListOfSupplierProduct: async(tenantId, listOfSupplierId) => Product.find({
+        tenant_id: tenantId,
+        supplier_id: { $in: listOfSupplierId }
+    })
 }
