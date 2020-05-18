@@ -1,10 +1,7 @@
-const ShipNode = require('../model/shipnode');
 const dbUtil = require('../util/db-util');
 const ProductModule = require('./product-module');
-const IVCredentialModule = require('./iv-credential-module')
 const { ResourceNotFoundError, InternalError } = require('../util/errors');
 const HttpUtil = require('../util/http-util')
-const RequestPromise = require('request-promise');
 const ShipnodeSupplyController = require('./shipnode-supply-controller')
 
 
@@ -28,6 +25,14 @@ async function loadSupply(tenantId, supplierId, supply) {
             'Cannot find the specificed supplier for the tenant.')
     }
     else {
+
+        listOfUnknownProducts = await checkProductExist(supplier, supply)
+
+        if (listOfUnknownProducts && listOfUnknownProducts.length) {
+            throw new ResourceNotFoundError('supplier product', 
+            `Supplier ${supplier.supplier_id} does not have product: ${listOfUnknownProducts.join(', ')}`)
+        }
+
         // ********************************************************
         // Supplier categories: type 1, 2 and 3
         // there will be 3 categories of suppliers:
@@ -52,6 +57,43 @@ async function loadSupply(tenantId, supplierId, supply) {
             
         }
     }
+}
+
+async function checkProductExist(supplier, supply){
+
+    const products = await ProductModule.getSupplierProduct(supplier.tenant_id, {}, supplier.supplier_id);
+
+    supplierProductList = []
+
+    if (products && products.length) {
+        
+        
+
+        products.forEach(prd=>{
+            supplierProductList.push(prd.item_id)
+        })
+    }
+
+    all_product_exist = true
+    unknown_product_list = []
+
+    if (supply && supply.supplies && supply.supplies.length) {
+        supply.supplies.forEach(supplyline => {
+            if (supplierProductList.indexOf(supplyline.itemId) < 0){
+                all_product_exist = false
+                unknown_product_list.push(`${supplyline.itemId.split('::')[1]}`)
+            }
+        })
+    }
+
+    return unknown_product_list
+
+    // if (! all_product_exist){
+    //     throw new ResourceNotFoundError('supply product', `Supplier ${supplier.supplier_id} does not have item ${invalid_item_list.join(', ')}`)
+    // }
+    // } else {
+    //     throw new ResourceNotFoundError("product list", `Supplier ${supplier.supplier_id} does not have any product in its product list.`)
+    // }
 }
 
 // Load supplyupdates and reset the supplies not on supplyUpdates
